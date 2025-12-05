@@ -238,7 +238,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="px-2 text-center">
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">강남세무서 조사과 세무조사 임명장</h3>
+                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">강남세무서 조사과 세무주사 임명장</h3>
                   <p className="text-sm text-slate-500 font-light">국세청에서 25년간 조사·행정 실무를<br/>수행한 경력의 기반입니다.</p>
                 </div>
               </div>
