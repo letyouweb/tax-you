@@ -40,39 +40,67 @@ export default function Home() {
 
       <main className="snap-container font-sans text-slate-800 bg-white selection:bg-[#D4A857] selection:text-white">
         
-        {/* Hero Section */}
+        {/* ==========================================
+            Hero Section - 리팩토링 완료
+            - 텍스트 단어 단위 줄바꿈 (keep-all)
+            - 폰트 사이즈 최적화 (Desktop 60px / Mobile 32px)
+            - 설명글 삭제, 여백 조정
+            ========================================== */}
         <section className="snap-section relative bg-gradient-to-br from-[#050B16] via-[#0A1525] to-[#111C30] text-white overflow-hidden">
+          {/* 배경 패턴 */}
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
-          <div className="container mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center relative z-10 min-h-screen">
-            <div className="space-y-10 pt-10 md:pt-0">
-              <div className="flex items-center gap-3">
-                 <div className="w-8 h-[1px] bg-[#D4A857]"></div>
-                 <span className="text-[#D4A857] font-medium tracking-wide text-sm md:text-base">
-                   국세청 25년 · 세무조사·양도·상속·증여·조세불복 전문
-                 </span>
+          
+          <div className="container mx-auto px-6 py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10 min-h-screen">
+            {/* 텍스트 영역 */}
+            <div className="pt-16 md:pt-0 flex flex-col">
+              
+              {/* 상단 태그 (Eyebrow Text) - 골드 컬러 유지 */}
+              <div className="flex items-center gap-3 mb-8 md:mb-10">
+                <div className="w-8 md:w-10 h-[1px] bg-[#D4A857]"></div>
+                <span className="text-[#D4A857] font-medium tracking-wide text-xs md:text-sm">
+                  국세청 25년 · 세무조사 · 양도 · 상속 · 증여 · 조세불복 전문
+                </span>
               </div>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-tight font-bold text-white drop-shadow-lg">
-                복잡한 세무는<br/>
-                유동수 세무회계에 맡기시고,<br/>
-                <span className="text-[#D4A857]">대표님은 사업에만 집중하세요.</span>
+              
+              {/* 메인 카피 - 강제 4줄 줄바꿈 */}
+              <h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.75rem] md:text-[2.5rem] lg:text-[3.5rem] leading-snug tracking-tight">
+                복잡한 세무는<br />
+                유동수 세무회계에 맡기시고,<br />
+                <span className="text-[#D4A857]">대표님은</span><br />
+                <span className="text-[#D4A857]">사업에만 집중하세요.</span>
               </h1>
-              <p className="text-lg text-slate-300 font-light leading-relaxed pl-1">
-                세무조사 첫 대응부터 조세불복까지,<br/>
-                국세청 25년 경험으로 함께합니다.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-5 pt-4">
-                <Link href="/consult" className="px-10 py-5 bg-[#D4A857] text-white rounded-sm hover:bg-[#C19545] transition-all flex items-center justify-center gap-3 shadow-xl shadow-[#D4A857]/20 group font-bold tracking-wide text-lg">
-                  세무조사 긴급 상담 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              
+              {/* 설명글 삭제됨 - 여백으로 대체 (60~80px) */}
+              <div className="h-16 md:h-20"></div>
+              
+              {/* CTA 버튼 */}
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-5">
+                <Link 
+                  href="/consult" 
+                  className="px-8 md:px-10 py-4 md:py-5 bg-[#D4A857] text-white rounded-sm hover:bg-[#C19545] transition-all flex items-center justify-center gap-3 shadow-xl shadow-[#D4A857]/20 group font-bold tracking-wide text-base md:text-lg"
+                >
+                  세무조사 긴급 상담 
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/consult" className="px-10 py-5 bg-transparent border border-slate-500 text-slate-300 rounded-sm hover:border-white hover:text-white transition-all flex items-center justify-center gap-3 hover:bg-white/5 font-medium tracking-wide text-lg">
+                <Link 
+                  href="/consult" 
+                  className="px-8 md:px-10 py-4 md:py-5 bg-transparent border border-slate-500 text-slate-300 rounded-sm hover:border-white hover:text-white transition-all flex items-center justify-center gap-3 hover:bg-white/5 font-medium tracking-wide text-base md:text-lg"
+                >
                   <FileText size={20} /> 1:1 상담 예약
                 </Link>
               </div>
             </div>
+            
+            {/* 이미지 영역 */}
             <div className="relative h-full flex items-end justify-center md:justify-end">
-               <div className="absolute inset-0 bg-gradient-to-r from-[#050B16] via-transparent to-transparent z-10"></div>
-               <div className="absolute inset-0 bg-gradient-to-t from-[#050B16] via-transparent to-transparent z-10"></div>
-               <img src="/images/Main.jpg" alt="유동수 대표 세무사" className="relative z-0 w-full max-w-lg md:max-w-xl object-cover grayscale brightness-110 contrast-110 opacity-95" style={{ maskImage: 'linear-gradient(to right, transparent 5%, black 40%)' }} />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050B16] via-transparent to-transparent z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050B16] via-transparent to-transparent z-10"></div>
+              <img 
+                src="/images/Main.jpg" 
+                alt="유동수 대표 세무사" 
+                className="relative z-0 w-full max-w-lg md:max-w-xl object-cover grayscale brightness-110 contrast-110 opacity-95" 
+                style={{ maskImage: 'linear-gradient(to right, transparent 5%, black 40%)' }} 
+              />
             </div>
           </div>
         </section>
@@ -194,8 +222,8 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
                 국세청 25년, <span className="text-[#D4A857]">그 경험을 증명합니다</span>
               </h2>
-              <p className="text-slate-500 max-w-2xl mx-auto font-light">
-                성실한 납세 행정과 전문성을 인정받아 온 기록입니다.
+              <p className="text-slate-900 max-w-2xl mx-auto font-light">
+                세무조사 첫 대응부터 조세불복까지, 국세청 25년 경험으로 함께합니다.
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -210,7 +238,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="px-2 text-center">
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">강남세무서 조사과 세무주사 임명장</h3>
+                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">강남세무서 조사과 세무조사 임명장</h3>
                   <p className="text-sm text-slate-500 font-light">국세청에서 25년간 조사·행정 실무를<br/>수행한 경력의 기반입니다.</p>
                 </div>
               </div>
