@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import { Gift, Calendar, FileText, Phone, ChevronDown } from 'lucide-react';
 
@@ -37,7 +38,14 @@ export default function JeunyoPage() {
         {/* 전문가 필요 이유 */}
         <section className="grid md:grid-cols-2 gap-12 items-center">
           <div className="bg-slate-100 h-80 rounded-lg flex items-center justify-center">
-            <Gift size={100} className="text-slate-300" />
+            <Image
+              src="/images/유동수세무사_증여세.jpg"
+              alt="증여세 전문 유동수 세무사"
+              width={1200}
+              height={700}
+              className="w-full h-auto object-cover"
+              priority
+            />
           </div>
           <div>
             <h2 className="text-2xl font-serif font-bold text-slate-900 mb-4">
