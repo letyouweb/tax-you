@@ -1,4 +1,5 @@
 import PageHeader from '@/components/PageHeader';
+import NaverMap from '@/components/NaverMap';
 import { MapPin, Clock, Phone, Mail } from 'lucide-react';
 
 export default function Location() {
@@ -41,11 +42,12 @@ export default function Location() {
                <img src="/images/유동수세무회계_오시는길.jpg" alt="건물 외관" className="w-full h-full object-cover" />
                <div className="absolute bottom-0 left-0 bg-black/60 text-white text-xs px-3 py-1">평해빌딩 전경</div>
             </div>
-            <div className="bg-slate-100 h-64 rounded border border-slate-200 flex items-center justify-center relative">
-               <div className="text-center">
-                  <MapPin size={40} className="text-slate-300 mx-auto mb-2"/>
-                  <p className="text-slate-400 text-sm">지도 영역 (Naver/Kakao Map API 연동 예정)</p>
-               </div>
+            <div className="h-64 rounded overflow-hidden border border-slate-200">
+               <NaverMap 
+                  clientId="awrp3jma17"
+                  address="서울 강남구 언주로130길 23"
+                  markerTitle="유동수 세무회계"
+               />
             </div>
          </div>
       </div>

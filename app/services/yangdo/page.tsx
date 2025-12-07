@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import { CheckCircle2, Calendar, FileText, Phone, ChevronDown, ArrowRight, TrendingUp, Home, Building2, BarChart3 } from 'lucide-react';
 
@@ -118,11 +117,10 @@ export default function YangdoPage() {
             {/* 세무사 이미지 */}
             <div className="relative">
               <div className="aspect-[4/5] md:aspect-[3/4] rounded-lg overflow-hidden shadow-2xl">
-                <Image 
+                <img 
                   src="/images/yoodongsu-yangdo.jpg" 
                   alt="유동수 대표 세무사"
-                  fill
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
               {/* 플로팅 배지 */}
