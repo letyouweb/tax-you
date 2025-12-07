@@ -38,16 +38,16 @@ export default function Location() {
          </div>
          
          <div className="space-y-4">
-            <div className="relative h-64 bg-slate-100 rounded overflow-hidden">
+            <div className="relative h-64 bg-slate-100 rounded-lg overflow-hidden">
                <img src="/images/유동수세무회계_오시는길.jpg" alt="건물 외관" className="w-full h-full object-cover" />
                <div className="absolute bottom-0 left-0 bg-black/60 text-white text-xs px-3 py-1">평해빌딩 전경</div>
             </div>
-            <div className="h-64 rounded overflow-hidden border border-slate-200">
+            <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm">
                <NaverMap 
-                  clientId="awrp3jma17"
                   latitude={37.5173319}
                   longitude={127.0410489}
                   markerTitle="유동수 세무회계"
+                  height="320px"
                />
             </div>
          </div>

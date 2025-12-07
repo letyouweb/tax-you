@@ -1,49 +1,24 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react'; // [추가됨] 지도 로딩용 훅
 import Link from 'next/link';
-import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone, MapPin } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone } from 'lucide-react';
+
+// NaverMap은 클라이언트에서만 로드
+const NaverMap = dynamic(() => import('@/components/NaverMap'), { 
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-slate-100 rounded-lg">
+      <p className="text-slate-400 text-sm">지도 로딩중...</p>
+    </div>
+  )
+});
 
 export default function Home() {
-  // [추가됨] 네이버 지도 관련 설정
-  const mapElement = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const checkNaverMaps = () => {
-      // @ts-ignore
-      if (typeof window.naver !== "undefined" && window.naver.maps) {
-        if (mapElement.current) {
-          // 1. 지도 생성 (서울 강남구 언주로130길 23 좌표)
-          const location = new window.naver.maps.LatLng(37.51945, 127.0385);
-          const mapOptions = {
-            center: location,
-            zoom: 17, // 줌 레벨 (숫자가 클수록 확대)
-            zoomControl: true,
-            scrollWheel: false, // 스크롤로 줌 방지 (페이지 스크롤 방해 금지)
-          };
-          
-          const map = new window.naver.maps.Map(mapElement.current, mapOptions);
-
-          // 2. 마커(핀) 생성
-          new window.naver.maps.Marker({
-            position: location,
-            map: map,
-          });
-        }
-      } else {
-        // 로드 안 됐으면 재시도
-        setTimeout(checkNaverMaps, 100);
-      }
-    };
-    checkNaverMaps();
-  }, []);
-
-
   return (
     <>
       {/* 스크롤 스냅 스타일 - Home 페이지에서만 적용 */}
       <style jsx global>{`
-        /* 스크롤 스냅 (PC에서만 적용) */
         @media (min-width: 1024px) {
           .snap-container {
             scroll-snap-type: y mandatory;
@@ -58,8 +33,6 @@ export default function Home() {
             justify-content: center;
           }
         }
-        
-        /* 모바일 예외 처리 */
         @media (max-width: 1023px) {
           .snap-container {
             scroll-snap-type: none;
@@ -75,9 +48,7 @@ export default function Home() {
 
       <main className="snap-container font-sans text-slate-800 bg-white selection:bg-[#D4A857] selection:text-white">
         
-        {/* ==========================================
-            Hero Section
-            ========================================== */}
+        {/* Hero Section */}
         <section className="snap-section relative bg-gradient-to-br from-[#050B16] via-[#0A1525] to-[#111C30] text-white overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
           
@@ -298,12 +269,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ==========================================
-            Location Section (지도 적용됨)
-            ========================================== */}
+        {/* Location Section */}
         <section className="snap-section py-20 bg-white">
           <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center max-w-6xl">
-            {/* 텍스트 영역 */}
             <div className="space-y-8">
               <div>
                 <span className="text-[#D4A857] font-bold text-sm tracking-widest uppercase">LOCATION</span>
@@ -345,17 +313,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 지도 영역 (이미지에서 변경됨) */}
-            <div className="relative group w-full h-[300px] md:h-[400px] rounded-lg shadow-2xl overflow-hidden border border-slate-200">
-               {/* 이 div가 실제 지도로 변환됩니다 */}
-               <div 
-                 ref={mapElement as any} 
-                 className="w-full h-full"
-               ></div>
-               {/* 지도 로딩 전 안내문구 */}
-               <div className="absolute inset-0 flex items-center justify-center bg-slate-50 -z-10">
-                 <p className="text-slate-400 text-sm">지도를 불러오는 중입니다...</p>
-               </div>
+            {/* 지도 영역 - NaverMap 컴포넌트 사용 */}
+            <div className="w-full rounded-lg shadow-2xl overflow-hidden border border-slate-200">
+              <NaverMap 
+                latitude={37.5173319}
+                longitude={127.0410489}
+                markerTitle="유동수 세무회계"
+                height="360px"
+              />
             </div>
           </div>
         </section>
