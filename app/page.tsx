@@ -1,9 +1,44 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react'; // [추가됨] 지도 로딩용 훅
 import Link from 'next/link';
 import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone, MapPin } from 'lucide-react';
 
 export default function Home() {
+  // [추가됨] 네이버 지도 관련 설정
+  const mapElement = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const checkNaverMaps = () => {
+      // @ts-ignore
+      if (typeof window.naver !== "undefined" && window.naver.maps) {
+        if (mapElement.current) {
+          // 1. 지도 생성 (서울 강남구 언주로130길 23 좌표)
+          const location = new window.naver.maps.LatLng(37.51945, 127.0385);
+          const mapOptions = {
+            center: location,
+            zoom: 17, // 줌 레벨 (숫자가 클수록 확대)
+            zoomControl: true,
+            scrollWheel: false, // 스크롤로 줌 방지 (페이지 스크롤 방해 금지)
+          };
+          
+          const map = new window.naver.maps.Map(mapElement.current, mapOptions);
+
+          // 2. 마커(핀) 생성
+          new window.naver.maps.Marker({
+            position: location,
+            map: map,
+          });
+        }
+      } else {
+        // 로드 안 됐으면 재시도
+        setTimeout(checkNaverMaps, 100);
+      }
+    };
+    checkNaverMaps();
+  }, []);
+
+
   return (
     <>
       {/* 스크롤 스냅 스타일 - Home 페이지에서만 적용 */}
@@ -41,20 +76,13 @@ export default function Home() {
       <main className="snap-container font-sans text-slate-800 bg-white selection:bg-[#D4A857] selection:text-white">
         
         {/* ==========================================
-            Hero Section - 리팩토링 완료
-            - 텍스트 단어 단위 줄바꿈 (keep-all)
-            - 폰트 사이즈 최적화 (Desktop 60px / Mobile 32px)
-            - 설명글 삭제, 여백 조정
+            Hero Section
             ========================================== */}
         <section className="snap-section relative bg-gradient-to-br from-[#050B16] via-[#0A1525] to-[#111C30] text-white overflow-hidden">
-          {/* 배경 패턴 */}
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
           
           <div className="container mx-auto px-6 py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10 min-h-screen">
-            {/* 텍스트 영역 */}
             <div className="pt-16 md:pt-0 flex flex-col">
-              
-              {/* 상단 태그 (Eyebrow Text) - 골드 컬러 유지 */}
               <div className="flex items-center gap-3 mb-8 md:mb-10">
                 <div className="w-8 md:w-10 h-[1px] bg-[#D4A857]"></div>
                 <span className="text-[#D4A857] font-medium tracking-wide text-xs md:text-sm">
@@ -62,7 +90,6 @@ export default function Home() {
                 </span>
               </div>
               
-              {/* 메인 카피 - 강제 4줄 줄바꿈 */}
               <h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.75rem] md:text-[2.5rem] lg:text-[3.5rem] leading-snug tracking-tight">
                 복잡한 세무는<br />
                 유동수 세무회계에 맡기시고,<br />
@@ -70,10 +97,8 @@ export default function Home() {
                 <span className="text-[#D4A857]">사업에만 집중하세요.</span>
               </h1>
               
-              {/* 설명글 삭제됨 - 여백으로 대체 (60~80px) */}
               <div className="h-16 md:h-20"></div>
               
-              {/* CTA 버튼 */}
               <div className="flex flex-col sm:flex-row gap-4 md:gap-5">
                 <Link 
                   href="/consult" 
@@ -91,7 +116,6 @@ export default function Home() {
               </div>
             </div>
             
-            {/* 이미지 영역 */}
             <div className="relative h-full flex items-end justify-center md:justify-end">
               <div className="absolute inset-0 bg-gradient-to-r from-[#050B16] via-transparent to-transparent z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-t from-[#050B16] via-transparent to-transparent z-10"></div>
@@ -146,7 +170,6 @@ export default function Home() {
               <p className="text-slate-400 text-sm font-light">가장 자신 있는 분야에 집중합니다.</p>
             </div>
             <div className="grid md:grid-cols-2 gap-5 max-w-6xl mx-auto">
-              {/* Card 1 */}
               <div className="flex flex-col h-full bg-[#162438] p-6 rounded-sm border border-slate-700/50 hover:border-[#D4A857] transition-all group hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-[#D4A857] rounded text-white shadow-lg"><Shield size={22} /></div>
@@ -162,7 +185,7 @@ export default function Home() {
                 </div>
                 <Link href="/consult" className="w-full py-3 bg-[#D4A857] text-white text-center font-bold rounded-sm hover:bg-[#C19545] transition-all text-sm shadow-md mt-auto">세무조사 긴급 상담</Link>
               </div>
-              {/* Card 2 */}
+              
               <div className="flex flex-col h-full bg-[#162438] p-6 rounded-sm border border-slate-700/50 hover:border-[#D4A857] transition-all group hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-[#D4A857] rounded text-white shadow-lg"><FileText size={22} /></div>
@@ -178,7 +201,7 @@ export default function Home() {
                 </div>
                 <Link href="/consult" className="w-full py-3 bg-[#D4A857] text-white text-center font-bold rounded-sm hover:bg-[#C19545] transition-all text-sm shadow-md mt-auto">상속·증여 설계 상담</Link>
               </div>
-              {/* Card 3 */}
+              
               <div className="flex flex-col h-full bg-[#0F172A] p-6 rounded-sm border border-slate-800 hover:border-[#D4A857] transition-all group hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-[#D4A857] rounded text-white shadow-lg"><Lock size={22} /></div>
@@ -194,7 +217,7 @@ export default function Home() {
                 </div>
                 <Link href="/consult" className="w-full py-3 bg-[#D4A857] text-white text-center font-bold rounded-sm hover:bg-[#C19545] transition-all text-sm shadow-md mt-auto">조세불복 상담 요청</Link>
               </div>
-              {/* Card 4 */}
+              
               <div className="flex flex-col h-full bg-[#0F172A] p-6 rounded-sm border border-slate-800 hover:border-[#D4A857] transition-all group hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-[#D4A857] rounded text-white shadow-lg"><Calculator size={22} /></div>
@@ -227,7 +250,6 @@ export default function Home() {
               </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {/* Card 1 */}
               <div className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group">
                 <div className="aspect-[4/3] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
@@ -243,7 +265,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Card 2 */}
               <div className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group">
                 <div className="aspect-[4/3] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
@@ -259,7 +280,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Card 3 */}
               <div className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group">
                 <div className="aspect-[4/3] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
@@ -278,7 +298,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Location Section */}
+        {/* ==========================================
+            Location Section (지도 적용됨)
+            ========================================== */}
         <section className="snap-section py-20 bg-white">
           <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center max-w-6xl">
             {/* 텍스트 영역 */}
@@ -323,20 +345,17 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 이미지 영역 */}
-            <div className="relative group">
-              <div className="absolute top-4 -left-4 w-full h-full border-2 border-[#D4A857] z-0" />
-              <img
-                src="/images/유동수세무회계_오시는길.jpg"
-                alt="유동수 세무회계 오시는 길"
-                className="relative z-10 w-full h-[300px] md:h-[400px] object-cover rounded-lg shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-500"
-              />
-              <Link href="/location" className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                 <div className="bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full text-white flex items-center gap-2 cursor-pointer hover:bg-black/80">
-                    <MapPin size={18} className="text-[#D4A857]"/>
-                    <span className="text-sm font-medium">지도 보기</span>
-                 </div>
-              </Link>
+            {/* 지도 영역 (이미지에서 변경됨) */}
+            <div className="relative group w-full h-[300px] md:h-[400px] rounded-lg shadow-2xl overflow-hidden border border-slate-200">
+               {/* 이 div가 실제 지도로 변환됩니다 */}
+               <div 
+                 ref={mapElement as any} 
+                 className="w-full h-full"
+               ></div>
+               {/* 지도 로딩 전 안내문구 */}
+               <div className="absolute inset-0 flex items-center justify-center bg-slate-50 -z-10">
+                 <p className="text-slate-400 text-sm">지도를 불러오는 중입니다...</p>
+               </div>
             </div>
           </div>
         </section>
