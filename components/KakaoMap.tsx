@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Script from 'next/script';
 
 declare global {
   interface Window {
@@ -22,121 +23,58 @@ export default function KakaoMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
+  const KAKAO_JS_KEY = '4986d7910c9d15459bd98bc85eaffd70';
+
+  const initMap = () => {
+    if (!mapRef.current || !window.kakao?.maps) {
+      return;
+    }
+
+    try {
+      window.kakao.maps.load(() => {
+        const geocoder = new window.kakao.maps.services.Geocoder();
+        
+        geocoder.addressSearch(address, (result: any, status: any) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+            
+            const map = new window.kakao.maps.Map(mapRef.current, {
+              center: coords,
+              level: 3,
+            });
+
+            const marker = new window.kakao.maps.Marker({
+              map: map,
+              position: coords,
+              title: markerTitle,
+            });
+
+            const infowindow = new window.kakao.maps.InfoWindow({
+              content: `<div style="padding:5px;font-size:12px;white-space:nowrap;">${markerTitle}</div>`
+            });
+            infowindow.open(map, marker);
+
+            const zoomControl = new window.kakao.maps.ZoomControl();
+            map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
+            setIsLoaded(true);
+          } else {
+            setError('주소를 찾을 수 없습니다.');
+          }
+        });
+      });
+    } catch (e) {
+      setError('지도를 불러올 수 없습니다.');
+    }
+  };
 
   useEffect(() => {
-    const KAKAO_JS_KEY = '4986d7910c9d15459bd98bc85eaffd70';
-    
-    const initMap = () => {
-      if (!mapRef.current || !window.kakao?.maps) {
-        console.log('Kakao maps not ready yet');
-        return;
-      }
-
-      try {
-        window.kakao.maps.load(() => {
-          // 지오코더로 주소 → 좌표 변환
-          const geocoder = new window.kakao.maps.services.Geocoder();
-          
-          geocoder.addressSearch(address, (result: any, status: any) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-              
-              // 지도 생성
-              const map = new window.kakao.maps.Map(mapRef.current, {
-                center: coords,
-                level: 3,
-              });
-
-              // 마커 생성
-              const marker = new window.kakao.maps.Marker({
-                map: map,
-                position: coords,
-                title: markerTitle,
-              });
-
-              // 인포윈도우 생성
-              const infowindow = new window.kakao.maps.InfoWindow({
-                content: `<div style="padding:5px;font-size:12px;white-space:nowrap;">${markerTitle}</div>`
-              });
-              infowindow.open(map, marker);
-
-              // 줌 컨트롤 추가
-              const zoomControl = new window.kakao.maps.ZoomControl();
-              map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
-
-              setIsLoaded(true);
-            } else {
-              console.error('Geocoder failed:', status);
-              setError('주소를 찾을 수 없습니다.');
-            }
-          });
-        });
-      } catch (e) {
-        console.error('Map initialization error:', e);
-        setError('지도를 불러올 수 없습니다.');
-      }
-    };
-
-    // 이미 스크립트가 로드되어 있는지 확인
-    if (window.kakao?.maps) {
+    if (scriptLoaded && window.kakao?.maps) {
       initMap();
-      return;
     }
-
-    const existingScript = document.querySelector(`script[src*="dapi.kakao.com"]`);
-    if (existingScript) {
-      // 스크립트는 있지만 아직 로드 중일 수 있음
-      const checkKakao = setInterval(() => {
-        if (window.kakao?.maps) {
-          clearInterval(checkKakao);
-          initMap();
-        }
-      }, 100);
-      
-      // 10초 후 타임아웃
-      setTimeout(() => {
-        clearInterval(checkKakao);
-        if (!window.kakao?.maps) {
-          setError('지도 로드 시간 초과');
-        }
-      }, 10000);
-      return;
-    }
-
-    // 스크립트 새로 로드
-    const script = document.createElement('script');
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`;
-    script.async = true;
-
-    script.onload = () => {
-      console.log('Kakao script loaded');
-      // 스크립트 로드 후 kakao 객체 확인
-      const checkKakao = setInterval(() => {
-        if (window.kakao?.maps) {
-          clearInterval(checkKakao);
-          initMap();
-        }
-      }, 100);
-      
-      setTimeout(() => {
-        clearInterval(checkKakao);
-        if (!window.kakao?.maps) {
-          setError('카카오 지도 초기화 실패');
-        }
-      }, 5000);
-    };
-
-    script.onerror = (e) => {
-      console.error('Script load error:', e);
-      setError('지도 스크립트 로드 실패');
-    };
-
-    document.head.appendChild(script);
-
-    return () => {
-      // cleanup if needed
-    };
-  }, [address, markerTitle]);
+  }, [scriptLoaded, address, markerTitle]);
 
   if (error) {
     return (
@@ -150,19 +88,31 @@ export default function KakaoMap({
   }
 
   return (
-    <div className="relative w-full rounded-lg overflow-hidden" style={{ height }}>
-      <div 
-        ref={mapRef} 
-        className="w-full h-full"
+    <>
+      <Script
+        src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`}
+        strategy="afterInteractive"
+        onLoad={() => {
+          setScriptLoaded(true);
+        }}
+        onError={() => {
+          setError('지도 스크립트 로드 실패');
+        }}
       />
-      {!isLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-6 h-6 border-2 border-[#D4A857] border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-slate-400 text-sm">지도 로딩중...</p>
+      <div className="relative w-full rounded-lg overflow-hidden" style={{ height }}>
+        <div 
+          ref={mapRef} 
+          className="w-full h-full"
+        />
+        {!isLoaded && !error && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-6 h-6 border-2 border-[#D4A857] border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-slate-400 text-sm">지도 로딩중...</p>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
