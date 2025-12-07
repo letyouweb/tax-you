@@ -12,12 +12,16 @@ interface KakaoMapProps {
   address?: string;
   markerTitle?: string;
   height?: string;
+  className?: string;
+  useClassHeight?: boolean; // true일 경우 className으로 높이 제어
 }
 
 export default function KakaoMap({ 
   address = '서울 강남구 언주로130길 23',
   markerTitle = '유동수 세무회계',
-  height = '340px'
+  height = '340px',
+  className = '',
+  useClassHeight = false
 }: KakaoMapProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +31,6 @@ export default function KakaoMap({
     if (typeof window === 'undefined') return;
 
     const KAKAO_JS_KEY = '4986d7910c9d15459bd98bc85eaffd70';
-    const container = document.getElementById('kakao-map');
     
     // 이미 로드된 경우
     if (window.kakao?.maps) {
@@ -114,12 +117,15 @@ export default function KakaoMap({
     };
   }, [address, markerTitle]);
 
+  // 높이 스타일 결정
+  const heightStyle = useClassHeight ? {} : { height };
+
   if (error) {
     return (
       <div 
         id="kakao-map"
-        style={{ width: '100%', height, background: '#f1f5f9' }}
-        className="flex items-center justify-center rounded-lg"
+        style={{ width: '100%', ...heightStyle, background: '#f1f5f9' }}
+        className={`flex items-center justify-center ${className}`}
       >
         <p className="text-slate-500 text-sm">{error}</p>
       </div>
@@ -127,17 +133,18 @@ export default function KakaoMap({
   }
 
   return (
-    <div className="relative w-full rounded-lg overflow-hidden" style={{ height }}>
-      {/* 지도 컨테이너 - 명시적 높이 */}
+    <div 
+      className={`relative w-full overflow-hidden ${className}`} 
+      style={heightStyle}
+    >
+      {/* 지도 컨테이너 */}
       <div 
         id="kakao-map"
-        style={{ width: '100%', height: '100%', minHeight: height, background: '#eee' }}
+        className="w-full h-full"
+        style={{ minHeight: useClassHeight ? undefined : height, background: '#eee' }}
       />
       {!isLoaded && (
-        <div 
-          className="absolute inset-0 flex items-center justify-center bg-slate-100"
-          style={{ height }}
-        >
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
           <div className="flex flex-col items-center gap-2">
             <div className="w-6 h-6 border-2 border-[#D4A857] border-t-transparent rounded-full animate-spin"></div>
             <p className="text-slate-400 text-sm">지도 로딩중...</p>
