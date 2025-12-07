@@ -27,10 +27,13 @@ export default function KakaoMap({
     const KAKAO_JS_KEY = '4986d7910c9d15459bd98bc85eaffd70';
     
     const initMap = () => {
-      if (!mapRef.current || !window.kakao?.maps) return;
+      if (!mapRef.current || !window.kakao?.maps) {
+        console.log('Kakao maps not ready yet');
+        return;
+      }
 
-      window.kakao.maps.load(() => {
-        try {
+      try {
+        window.kakao.maps.load(() => {
           // 지오코더로 주소 → 좌표 변환
           const geocoder = new window.kakao.maps.services.Geocoder();
           
@@ -41,7 +44,7 @@ export default function KakaoMap({
               // 지도 생성
               const map = new window.kakao.maps.Map(mapRef.current, {
                 center: coords,
-                level: 3, // 확대 레벨 (숫자가 작을수록 확대)
+                level: 3,
               });
 
               // 마커 생성
@@ -63,38 +66,76 @@ export default function KakaoMap({
 
               setIsLoaded(true);
             } else {
+              console.error('Geocoder failed:', status);
               setError('주소를 찾을 수 없습니다.');
             }
           });
-        } catch (e) {
-          console.error('Map initialization error:', e);
-          setError('지도를 불러올 수 없습니다.');
-        }
-      });
+        });
+      } catch (e) {
+        console.error('Map initialization error:', e);
+        setError('지도를 불러올 수 없습니다.');
+      }
     };
 
     // 이미 스크립트가 로드되어 있는지 확인
-    const existingScript = document.querySelector(`script[src*="dapi.kakao.com"]`);
-    
-    if (existingScript && window.kakao?.maps) {
+    if (window.kakao?.maps) {
       initMap();
       return;
     }
 
-    // 스크립트 로드
+    const existingScript = document.querySelector(`script[src*="dapi.kakao.com"]`);
+    if (existingScript) {
+      // 스크립트는 있지만 아직 로드 중일 수 있음
+      const checkKakao = setInterval(() => {
+        if (window.kakao?.maps) {
+          clearInterval(checkKakao);
+          initMap();
+        }
+      }, 100);
+      
+      // 10초 후 타임아웃
+      setTimeout(() => {
+        clearInterval(checkKakao);
+        if (!window.kakao?.maps) {
+          setError('지도 로드 시간 초과');
+        }
+      }, 10000);
+      return;
+    }
+
+    // 스크립트 새로 로드
     const script = document.createElement('script');
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`;
     script.async = true;
 
     script.onload = () => {
-      initMap();
+      console.log('Kakao script loaded');
+      // 스크립트 로드 후 kakao 객체 확인
+      const checkKakao = setInterval(() => {
+        if (window.kakao?.maps) {
+          clearInterval(checkKakao);
+          initMap();
+        }
+      }, 100);
+      
+      setTimeout(() => {
+        clearInterval(checkKakao);
+        if (!window.kakao?.maps) {
+          setError('카카오 지도 초기화 실패');
+        }
+      }, 5000);
     };
 
-    script.onerror = () => {
+    script.onerror = (e) => {
+      console.error('Script load error:', e);
       setError('지도 스크립트 로드 실패');
     };
 
     document.head.appendChild(script);
+
+    return () => {
+      // cleanup if needed
+    };
   }, [address, markerTitle]);
 
   if (error) {
