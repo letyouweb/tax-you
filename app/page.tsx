@@ -4,8 +4,8 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone } from 'lucide-react';
 
-// NaverMap은 클라이언트에서만 로드
-const NaverMap = dynamic(() => import('@/components/NaverMap'), { 
+// KakaoMap은 클라이언트에서만 로드
+const KakaoMap = dynamic(() => import('@/components/KakaoMap'), { 
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center bg-slate-100 rounded-lg">
@@ -313,11 +313,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 지도 영역 - NaverMap 컴포넌트 사용 */}
+            {/* 지도 영역 - KakaoMap 컴포넌트 사용 */}
             <div className="w-full rounded-lg shadow-2xl overflow-hidden border border-slate-200">
-              <NaverMap 
-                latitude={37.5173319}
-                longitude={127.0410489}
+              <KakaoMap 
+                address="서울 강남구 언주로130길 23"
                 markerTitle="유동수 세무회계"
                 height="360px"
               />

@@ -1,5 +1,5 @@
 import PageHeader from '@/components/PageHeader';
-import NaverMap from '@/components/NaverMap';
+import KakaoMap from '@/components/KakaoMap';
 import { MapPin, Clock, Phone, Mail } from 'lucide-react';
 
 export default function Location() {
@@ -43,9 +43,8 @@ export default function Location() {
                <div className="absolute bottom-0 left-0 bg-black/60 text-white text-xs px-3 py-1">평해빌딩 전경</div>
             </div>
             <div className="rounded-lg overflow-hidden border border-slate-200 shadow-sm">
-               <NaverMap 
-                  latitude={37.5173319}
-                  longitude={127.0410489}
+               <KakaoMap 
+                  address="서울 강남구 언주로130길 23"
                   markerTitle="유동수 세무회계"
                   height="320px"
                />
