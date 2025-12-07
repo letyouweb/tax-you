@@ -45,7 +45,8 @@ export default function Location() {
             <div className="h-64 rounded overflow-hidden border border-slate-200">
                <NaverMap 
                   clientId="awrp3jma17"
-                  address="서울 강남구 언주로130길 23"
+                  latitude={37.5173319}
+                  longitude={127.0410489}
                   markerTitle="유동수 세무회계"
                />
             </div>

@@ -10,41 +10,25 @@ declare global {
 
 interface NaverMapProps {
   clientId: string;
-  address: string;
+  latitude?: number;
+  longitude?: number;
   markerTitle?: string;
 }
 
-export default function NaverMap({ clientId, address, markerTitle = '유동수 세무회계' }: NaverMapProps) {
+export default function NaverMap({ 
+  clientId, 
+  latitude = 37.5173319,  // 서울 강남구 언주로130길 23 좌표
+  longitude = 127.0410489,
+  markerTitle = '유동수 세무회계' 
+}: NaverMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
 
   useEffect(() => {
-    const initMap = () => {
-      if (!mapRef.current || !window.naver) return;
+    const createMap = () => {
+      if (!mapRef.current || !window.naver || !window.naver.maps) return;
 
-      // 네이버 지오코딩으로 주소를 좌표로 변환
-      window.naver.maps.Service.geocode(
-        { query: address },
-        (status: any, response: any) => {
-          if (status !== window.naver.maps.Service.Status.OK) {
-            // 지오코딩 실패 시 기본 좌표 사용 (강남구청역 부근)
-            const defaultLocation = new window.naver.maps.LatLng(37.5173, 127.0410);
-            createMap(defaultLocation);
-            return;
-          }
-
-          const result = response.v2.addresses[0];
-          const location = new window.naver.maps.LatLng(
-            parseFloat(result.y),
-            parseFloat(result.x)
-          );
-          createMap(location);
-        }
-      );
-    };
-
-    const createMap = (location: any) => {
-      if (!mapRef.current) return;
+      const location = new window.naver.maps.LatLng(latitude, longitude);
 
       // 지도 생성
       mapInstanceRef.current = new window.naver.maps.Map(mapRef.current, {
@@ -61,22 +45,22 @@ export default function NaverMap({ clientId, address, markerTitle = '유동수 �
         position: location,
         map: mapInstanceRef.current,
         title: markerTitle,
-        animation: window.naver.maps.Animation.DROP,
       });
     };
 
     // 네이버 지도 SDK 로드
     const loadNaverMapScript = () => {
       if (window.naver && window.naver.maps) {
-        initMap();
+        createMap();
         return;
       }
 
       const script = document.createElement('script');
-      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}&submodules=geocoder`;
+      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}`;
       script.async = true;
       script.onload = () => {
-        initMap();
+        // SDK 로드 후 약간의 지연
+        setTimeout(createMap, 100);
       };
       document.head.appendChild(script);
     };
@@ -88,7 +72,7 @@ export default function NaverMap({ clientId, address, markerTitle = '유동수 �
         mapInstanceRef.current.destroy();
       }
     };
-  }, [clientId, address, markerTitle]);
+  }, [clientId, latitude, longitude, markerTitle]);
 
   return (
     <div 
