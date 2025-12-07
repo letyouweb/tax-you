@@ -219,12 +219,12 @@ export default function Home() {
           <div className="container mx-auto px-6">
             <div className="text-center mb-16 space-y-4">
               <span className="text-[#D4A857] font-bold tracking-widest text-sm uppercase">CAREER</span>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
-                국세청 25년, <span className="text-[#D4A857]">그 경험을 증명합니다</span>
-              </h2>
-              <p className="text-slate-900 max-w-2xl mx-auto font-light">
-                세무조사 첫 대응부터 조세불복까지, 국세청 25년 경험으로 함께합니다.
+              <p className="text-slate-500 max-w-2xl mx-auto font-light">
+                세무조사 첫 대응부터 조세불복까지
               </p>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
+                국세청 25년 <span className="text-[#5B9BD5]">경험으로 함께합니다</span>
+              </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {/* Card 1 */}
