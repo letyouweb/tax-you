@@ -108,7 +108,7 @@ export default function Services() {
           </div>
           <div className="order-1 md:order-2 bg-slate-100 h-80 rounded overflow-hidden">
             <Image
-              src="/images/유동수세무사_세무조사_전담_대응.png"
+              src="/images/유동수세무사_세무조사_전담_대응.jpg"
               alt="세무조사 전담 대응 - 유동수 세무사"
               width={1200}
               height={700}
@@ -122,7 +122,7 @@ export default function Services() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="bg-slate-100 h-80 rounded overflow-hidden">
             <Image
-              src="/images/유동수세무사_양도_상속_증여_맞춤설계.png"
+              src="/images/유동수세무사_양도_상속_증여_맞춤설계.jpg"
               alt="양도·상속·증여 맞춤 설계 - 유동수 세무사"
               width={1200}
               height={700}
@@ -233,7 +233,7 @@ export default function Services() {
           </div>
           <div className="order-1 md:order-2 bg-slate-100 h-80 rounded overflow-hidden">
             <Image
-              src="/images/유동수세무사_조세불복_경정청구.png"
+              src="/images/유동수세무사_조세불복_경정청구.jpg"
               alt="조세불복·경정청구 - 유동수 세무사"
               width={1200}
               height={700}
@@ -247,7 +247,7 @@ export default function Services() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="bg-slate-100 h-80 rounded overflow-hidden">
             <Image
-              src="/images/유동수세무사_상시_세무_자문.png"
+              src="/images/유동수세무사_상시_세무_자문.jpg"
               alt="상시 세무 자문 - 유동수 세무사"
               width={1200}
               height={700}
