@@ -119,7 +119,7 @@ export default function YangdoPage() {
             <div className="relative">
               <div className="aspect-[4/5] md:aspect-[3/4] rounded-lg overflow-hidden shadow-2xl">
                 <Image 
-                  src="/images/유동수세무사_양도세.jpg" 
+                  src="/images/yoodongsu-yangdo.jpg" 
                   alt="유동수 대표 세무사"
                   fill
                   className="object-cover"
