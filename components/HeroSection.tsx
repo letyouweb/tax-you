@@ -55,11 +55,12 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              {/* Primary Button */}
+              {/* Primary Button - Gold Gradient */}
               <button
-                className="group relative px-8 py-4 bg-[#D4AF6A] text-[#020617] font-semibold rounded-lg
-                          hover:brightness-110 hover:shadow-[0_8px_24px_rgba(212,175,106,0.3)]
-                          transition-all duration-200 min-h-[52px]"
+                className="group relative px-8 py-4 rounded-full font-bold text-[#111827] 
+                          bg-gradient-to-r from-[#C5A059] via-[#E6C888] to-[#B88A00] 
+                          shadow-lg hover:brightness-105 transition-all transform hover:-translate-y-0.5
+                          min-h-[52px]"
               >
                 <span className="flex items-center justify-center gap-2">
                   세무조사 긴급 상담
@@ -67,10 +68,10 @@ export default function HeroSection() {
                 </span>
               </button>
 
-              {/* Secondary Button */}
+              {/* Secondary Button - Gold Border Outline */}
               <button
-                className="group px-8 py-4 bg-transparent text-white font-medium rounded-lg
-                          border-[1.5px] border-white/30 hover:border-white/60 hover:bg-white/5
+                className="group px-8 py-4 bg-transparent text-[#D4AF6A] font-semibold rounded-full
+                          border-2 border-[#D4AF6A]/60 hover:border-[#D4AF6A] hover:bg-[#D4AF6A]/10
                           transition-all duration-200 min-h-[52px]"
               >
                 <span className="flex items-center justify-center gap-2">

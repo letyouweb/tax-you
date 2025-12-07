@@ -20,6 +20,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 모바일 메뉴 열릴 때 스크롤 방지
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   const isMain = pathname === '/';
   const isTransparent = isMain && !isScrolled && !isMobileMenuOpen;
 
@@ -125,20 +137,39 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden z-50 transition-colors"
-          style={{ color: isTransparent ? '#FFFFFF' : '#050B16' }}
+          className="md:hidden z-50 transition-colors p-2"
+          style={{ color: isMobileMenuOpen ? '#FFFFFF' : (isTransparent ? '#FFFFFF' : '#050B16') }}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-0 left-0 w-full h-screen bg-[#050B16] flex flex-col items-center justify-center space-y-6 md:hidden z-40">
+      {/* Mobile Menu Full-Screen Overlay */}
+      <div 
+        className={`fixed inset-0 bg-[#020617] md:hidden z-40 transition-all duration-300 ${
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+      >
+        {/* 상단 고정 헤더 영역 */}
+        <div className="fixed top-0 left-0 right-0 px-6 py-6 flex justify-between items-center z-50">
           <Link 
             href="/" 
-            className="text-xl text-white font-serif hover:text-[#D4A857] transition-colors" 
+            className="font-serif text-xl tracking-widest font-bold text-white"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            유동수 세무회계
+            <span className="block text-[10px] font-sans font-light tracking-[0.3em] text-[#D4A857] mt-1">
+              TAX & ACCOUNTING
+            </span>
+          </Link>
+        </div>
+
+        {/* 메뉴 항목들 - 세로 중앙 정렬 */}
+        <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24 space-y-8">
+          <Link 
+            href="/" 
+            className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Home
@@ -146,7 +177,7 @@ const Navbar = () => {
           
           <Link 
             href="/about" 
-            className="text-xl text-white font-serif hover:text-[#D4A857] transition-colors" 
+            className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
             onClick={() => setIsMobileMenuOpen(false)}
           >
             회사소개
@@ -154,7 +185,7 @@ const Navbar = () => {
           
           <Link 
             href="/insight" 
-            className="text-xl text-white font-serif hover:text-[#D4A857] transition-colors" 
+            className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
             onClick={() => setIsMobileMenuOpen(false)}
           >
             인사이트
@@ -164,31 +195,33 @@ const Navbar = () => {
           <div className="flex flex-col items-center">
             <button
               onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-              className="text-xl text-white font-serif hover:text-[#D4A857] transition-colors flex items-center gap-2"
+              className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide flex items-center gap-3"
             >
               전문분야
-              <ChevronDown size={18} className={`transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={22} className={`transition-transform duration-200 ${isMobileServicesOpen ? 'rotate-180' : ''}`} />
             </button>
             
-            {isMobileServicesOpen && (
-              <div className="mt-3 flex flex-col items-center space-y-3 bg-white/10 rounded-lg px-8 py-4">
+            <div className={`mt-4 flex flex-col items-center space-y-4 overflow-hidden transition-all duration-300 ${
+              isMobileServicesOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0'
+            }`}>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl px-10 py-5 space-y-4">
                 {servicesSubMenu.map((sub) => (
                   <Link
                     key={sub.name}
                     href={sub.path}
-                    className="text-base text-slate-300 hover:text-[#D4A857] transition-colors"
+                    className="block text-lg text-slate-300 hover:text-[#D4A857] transition-colors text-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {sub.name}
                   </Link>
                 ))}
               </div>
-            )}
+            </div>
           </div>
           
           <Link 
             href="/career" 
-            className="text-xl text-white font-serif hover:text-[#D4A857] transition-colors" 
+            className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
             onClick={() => setIsMobileMenuOpen(false)}
           >
             주요경력
@@ -196,21 +229,24 @@ const Navbar = () => {
           
           <Link 
             href="/location" 
-            className="text-xl text-white font-serif hover:text-[#D4A857] transition-colors" 
+            className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
             onClick={() => setIsMobileMenuOpen(false)}
           >
             오시는길
           </Link>
           
-          <Link 
-            href="/consult" 
-            className="text-xl text-[#D4A857] font-serif hover:text-white transition-colors border border-[#D4A857] px-6 py-2 rounded mt-4" 
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            상담문의
-          </Link>
+          {/* 상담문의 CTA 버튼 */}
+          <div className="pt-6">
+            <Link 
+              href="/consult" 
+              className="inline-block text-xl text-[#020617] font-bold bg-gradient-to-r from-[#C5A059] via-[#E6C888] to-[#B88A00] px-10 py-4 rounded-full shadow-lg hover:brightness-105 transition-all" 
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              상담문의
+            </Link>
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
