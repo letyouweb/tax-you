@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar } from 'lucide-react';
+import { ArrowRight, Calendar, Phone } from 'lucide-react';
 
 export default function HeroSection() {
   return (
@@ -55,18 +55,20 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              {/* Primary Button - Gold Gradient */}
-              <button
-                className="group relative px-8 py-4 rounded-full font-bold text-[#111827] 
-                          bg-gradient-to-r from-[#C5A059] via-[#E6C888] to-[#B88A00] 
-                          shadow-lg hover:brightness-105 transition-all transform hover:-translate-y-0.5
-                          min-h-[52px]"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  세무조사 긴급 상담
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
+              {/* Primary Button - Gold Gradient - 전화연결 */}
+              <a href="tel:025180130">
+                <button
+                  className="group relative px-8 py-4 rounded-full font-bold text-[#111827] 
+                            bg-gradient-to-r from-[#C5A059] via-[#E6C888] to-[#B88A00] 
+                            shadow-lg hover:brightness-105 transition-all transform hover:-translate-y-0.5
+                            min-h-[52px] w-full sm:w-auto"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    세무조사 긴급 상담
+                    <Phone className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                  </span>
+                </button>
+              </a>
 
               {/* Secondary Button - Gold Border Outline */}
               <button

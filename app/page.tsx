@@ -2,8 +2,11 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
+import Image from 'next/image';
 import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone } from 'lucide-react';
 import SuccessCasesSection from '@/components/SuccessCasesSection';
+import ImageLightbox from '@/components/ImageLightbox';
 
 // KakaoMap은 클라이언트에서만 로드
 const KakaoMap = dynamic(() => import('@/components/KakaoMap'), { 
@@ -16,6 +19,41 @@ const KakaoMap = dynamic(() => import('@/components/KakaoMap'), {
 });
 
 export default function Home() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState({ src: '', alt: '' });
+
+  const openLightbox = (src: string, alt: string) => {
+    setLightboxImage({ src, alt });
+    setLightboxOpen(true);
+  };
+
+  const awardsData = [
+    {
+      src: '/images/awards/유동수세무회계_표창장.jpg',
+      alt: '표창장',
+      title: '국세청 표창장',
+      desc: '성실한 국세 행정에 기여한 공로를 인정받아 수여된 표창장입니다.'
+    },
+    {
+      src: '/images/awards/유동수세무회계_국세청_표창장.jpg',
+      alt: '국세청 표창장',
+      title: '국세청장 표창장',
+      desc: '국세청장으로부터 수여받은 표창장으로 세무 행정 분야에 대한 전문성을 인정받았습니다.'
+    },
+    {
+      src: '/images/awards/유동수세무회계_강남세무서_명예퇴임.jpg',
+      alt: '강남세무서 명예퇴임 기념패',
+      title: '명예퇴임 기념패',
+      desc: '강남세무서 조사과 동료들이 함께 남겨준 감사의 기념패입니다.'
+    },
+    {
+      src: '/images/awards/유동수세무회계_국세청장재직기념패.jpg',
+      alt: '국세청장 재직 기념패',
+      title: '국세청장 재직 기념패',
+      desc: '국세행정에 기여한 공로를 인정받아 수여된 기념패입니다.'
+    }
+  ];
+
   return (
     <>
       {/* 스크롤 스냅 스타일 - Home 페이지에서만 적용 */}
@@ -223,101 +261,91 @@ export default function Home() {
                 국세청 25년 <span className="text-[#5B9BD5]">경험으로 함께합니다</span>
               </h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group">
-                <div className="aspect-[4/3] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
-                  <img 
-                    src="/images/awards/유동수세무회계_대통령임명장.jpg" 
-                    alt="대통령 임명장" 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                  />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+              {awardsData.map((award, idx) => (
+                <div 
+                  key={idx}
+                  className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  onClick={() => openLightbox(award.src, award.alt)}
+                >
+                  <div className="aspect-[3/4] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10 flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 text-white font-bold text-sm bg-black/50 px-4 py-2 rounded transition-opacity">
+                        클릭하여 확대
+                      </span>
+                    </div>
+                    <Image 
+                      src={award.src}
+                      alt={award.alt}
+                      fill
+                      className="object-contain p-2 transform group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="px-2 text-center">
+                    <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">{award.title}</h3>
+                    <p className="text-sm text-slate-500 font-light line-clamp-2">{award.desc}</p>
+                  </div>
                 </div>
-                <div className="px-2 text-center">
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">강남세무서 조사과 세무주사 임명장</h3>
-                  <p className="text-sm text-slate-500 font-light">국세청에서 25년간 조사·행정 실무를<br/>수행한 경력의 기반입니다.</p>
-                </div>
-              </div>
-
-              <div className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group">
-                <div className="aspect-[4/3] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
-                  <img 
-                    src="/images/awards/유동수세무회계_국세청장재직기념패.jpg" 
-                    alt="국세청장 재직 기념패" 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="px-2 text-center">
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">국세청장 재직 기념패</h3>
-                  <p className="text-sm text-slate-500 font-light">국세행정에 기여한 공로를 인정받아<br/>수여된 기념패입니다.</p>
-                </div>
-              </div>
-
-              <div className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group">
-                <div className="aspect-[4/3] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
-                  <img 
-                    src="/images/awards/유동수세무회계_강남세무서명예퇴임기념폐.jpg" 
-                    alt="강남세무서 조사과 명예퇴임 기념패" 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="px-2 text-center">
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">명예퇴임 기념패</h3>
-                  <p className="text-sm text-slate-500 font-light">강남세무서 조사과 동료들이 함께 남겨준<br/>감사의 기념패입니다.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Location Section */}
-        <section className="snap-section py-20 bg-white">
-          <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center max-w-6xl">
+        {/* Location Section - 건물 배경 이미지 */}
+        <section className="snap-section py-20 relative overflow-hidden">
+          {/* 배경 이미지 */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/유동수세무회계_오시는길.jpg')" }}
+          />
+          {/* 어두운 오버레이 (75% opacity) */}
+          <div className="absolute inset-0 bg-black/[0.75]" />
+          
+          <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center max-w-6xl relative z-10">
             <div className="space-y-8">
               <div>
                 <span className="text-[#D4A857] font-bold text-sm tracking-widest uppercase">LOCATION</span>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mt-2">
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mt-2">
                   오시는 길
                 </h2>
               </div>
-              <div className="space-y-6 text-sm md:text-base text-slate-600 leading-relaxed font-light">
+              <div className="space-y-6 text-sm md:text-base text-white/90 leading-relaxed font-light">
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-slate-50 rounded flex items-center justify-center text-slate-400 flex-shrink-0">
+                  <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded flex items-center justify-center text-[#D4A857] flex-shrink-0 border border-white/20">
                      <TrendingUp size={20}/>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 block mb-1">지하철 이용 시</p>
+                    <p className="font-bold text-white block mb-1">지하철 이용 시</p>
                     <p>강남구청역 2번 출구에서 도보 6분 거리</p>
                   </div>
                 </div>
                 
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-slate-50 rounded flex items-center justify-center text-slate-400 flex-shrink-0">
+                  <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded flex items-center justify-center text-[#D4A857] flex-shrink-0 border border-white/20">
                      <Phone size={20}/>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 block mb-1">상담 문의</p>
-                    <p>전화: 02-518-0130 <span className="text-slate-300 mx-2">|</span> 팩스: 02-518-0137</p>
+                    <p className="font-bold text-white block mb-1">상담 문의</p>
+                    <p>전화: 02-518-0130 <span className="text-white/50 mx-2">|</span> 팩스: 02-518-0137</p>
                     <p>이메일: rdscta@daum.net</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-slate-50 rounded flex items-center justify-center text-slate-400 flex-shrink-0">
+                  <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded flex items-center justify-center text-[#D4A857] flex-shrink-0 border border-white/20">
                      <FileText size={20}/>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 block mb-1">주소</p>
+                    <p className="font-bold text-white block mb-1">주소</p>
                     <p>서울 강남구 언주로130길 23, 평해빌딩 201호</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 지도 영역 - KakaoMap 컴포넌트 사용 */}
-            <div className="w-full rounded-lg shadow-2xl overflow-hidden border border-slate-200">
+            {/* 지도 영역 - 흰색 테두리 및 그림자 추가 */}
+            <div className="w-full rounded-lg shadow-2xl overflow-hidden border-2 border-white/30 ring-4 ring-white/10">
               <KakaoMap 
                 address="서울 강남구 언주로130길 23"
                 markerTitle="유동수 세무회계"
@@ -354,6 +382,14 @@ export default function Home() {
         </section>
 
       </main>
+
+      {/* 라이트박스 모달 */}
+      <ImageLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        imageSrc={lightboxImage.src}
+        imageAlt={lightboxImage.alt}
+      />
     </>
   );
 }

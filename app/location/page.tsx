@@ -45,11 +45,13 @@ export default function Location() {
 
                   {/* 전화/팩스 */}
                   <li className="flex gap-4 items-start">
-                    <Phone className="text-[#D4A857] flex-shrink-0 w-[22px] h-[22px] mt-0.5" />
+                    <a href="tel:025180130" className="flex-shrink-0 cursor-pointer hover:scale-110 transition-transform">
+                      <Phone className="text-[#D4A857] w-[22px] h-[22px] mt-0.5" />
+                    </a>
                     <span className="leading-relaxed">
                       <strong className="text-slate-900">상담 문의</strong><br/>
                       <span className="text-slate-600">
-                        Tel. <a href="tel:02-518-0130" className="hover:text-[#D4A857] transition-colors font-medium">02-518-0130</a><br/>
+                        Tel. <a href="tel:025180130" className="hover:text-[#D4A857] transition-colors font-medium">02-518-0130</a><br/>
                         Fax. 02-518-0137
                       </span>
                     </span>

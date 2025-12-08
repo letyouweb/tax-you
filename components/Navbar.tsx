@@ -44,10 +44,9 @@ const Navbar = () => {
   ];
 
   const navItems = [
-    { name: '회사소개', path: '/about' },
+    { name: '대표 세무사', path: '/about' },
     { name: '인사이트', path: '/insight' },
     { name: '전문분야', path: '/services', hasSubmenu: true },
-    { name: '주요경력', path: '/career' },
     { name: '오시는길', path: '/location' },
   ];
 
@@ -180,7 +179,7 @@ const Navbar = () => {
             className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            회사소개
+            대표 세무사
           </Link>
           
           <Link 
@@ -218,14 +217,6 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          
-          <Link 
-            href="/career" 
-            className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide" 
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            주요경력
-          </Link>
           
           <Link 
             href="/location" 

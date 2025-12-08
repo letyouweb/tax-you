@@ -52,7 +52,7 @@ export default function Career() {
             {/* Card 3 */}
             <div className="space-y-4">
                <div className="aspect-[4/3] bg-slate-100 rounded overflow-hidden shadow-sm border border-slate-100">
-                  <img src="/images/awards/유동수세무회계_강남세무서명예퇴임기념폐.jpg" alt="명예퇴임 기념패" className="w-full h-full object-cover" />
+                  <img src="/images/awards/유동수세무회계_강남세무서_명예퇴임.jpg" alt="명예퇴임 기념패" className="w-full h-full object-cover" />
                </div>
                <div className="text-center">
                   <h4 className="font-bold text-slate-900">명예퇴임 기념패</h4>
