@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone } from 'lucide-react';
+import SuccessCasesSection from '@/components/SuccessCasesSection';
 
 // KakaoMap은 클라이언트에서만 로드
 const KakaoMap = dynamic(() => import('@/components/KakaoMap'), { 
@@ -129,6 +130,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Success Cases Section */}
+        <SuccessCasesSection />
 
         {/* Services Section */}
         <section className="snap-section py-16 bg-[#050B16] text-white">
