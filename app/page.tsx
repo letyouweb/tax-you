@@ -4,7 +4,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone } from 'lucide-react';
+import { ArrowRight, FileText, AlertCircle, TrendingUp, Users, Lock, Shield, CheckCircle2, Calculator, Phone, Medal } from 'lucide-react';
 import SuccessCasesSection from '@/components/SuccessCasesSection';
 import ImageLightbox from '@/components/ImageLightbox';
 
@@ -93,10 +93,11 @@ export default function Home() {
           
           <div className="container mx-auto px-6 py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10 min-h-screen">
             <div className="pt-16 md:pt-0 flex flex-col">
-              <div className="flex items-center gap-3 mb-6 md:mb-8">
-                <div className="w-8 md:w-10 h-[1px] bg-[#D4A857]"></div>
-                <span className="text-[#D4A857] font-medium tracking-wide text-xs md:text-sm">
-                  국세청 조사과 25년 경력 · 세무조사 전문
+              {/* 골드 뱃지 */}
+              <div className="inline-flex items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/30 px-4 py-2 rounded-full mb-6 w-fit">
+                <Medal className="w-4 h-4 text-[#D4A857]" />
+                <span className="text-[#D4A857] text-xs md:text-sm font-medium">
+                  국세청 근무 25년 · 국세청장 표창 수상 세무사
                 </span>
               </div>
               
@@ -111,7 +112,12 @@ export default function Home() {
                 처음부터 끝까지 직접 방어합니다.
               </p>
               
-              <div className="h-10 md:h-14"></div>
+              {/* 전문 분야 */}
+              <p className="text-sm text-slate-400 mt-4">
+                세무조사 · 양도 · 상속 · 증여 · 조세불복 전문
+              </p>
+              
+              <div className="h-8 md:h-12"></div>
               
               <div className="flex flex-col sm:flex-row gap-4 md:gap-5">
                 <a 
