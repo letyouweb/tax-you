@@ -110,13 +110,13 @@ export default function Home() {
               <div className="h-16 md:h-20"></div>
               
               <div className="flex flex-col sm:flex-row gap-4 md:gap-5">
-                <Link 
-                  href="/consult" 
+                <a 
+                  href="tel:025180130" 
                   className="px-8 md:px-10 py-4 md:py-5 bg-[#D4A857] text-white rounded-sm hover:bg-[#C19545] transition-all flex items-center justify-center gap-3 shadow-xl shadow-[#D4A857]/20 group font-bold tracking-wide text-base md:text-lg"
                 >
                   세무조사 긴급 상담 
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
+                  <Phone size={20} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
                 <Link 
                   href="/consult" 
                   className="px-8 md:px-10 py-4 md:py-5 bg-transparent border border-slate-500 text-slate-300 rounded-sm hover:border-white hover:text-white transition-all flex items-center justify-center gap-3 hover:bg-white/5 font-medium tracking-wide text-base md:text-lg"
@@ -322,13 +322,13 @@ export default function Home() {
                 </div>
                 
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded flex items-center justify-center text-[#D4A857] flex-shrink-0 border border-white/20">
+                  <a href="tel:025180130" className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded flex items-center justify-center text-[#D4A857] flex-shrink-0 border border-white/20 hover:bg-[#D4A857] hover:text-white transition-all cursor-pointer">
                      <Phone size={20}/>
-                  </div>
+                  </a>
                   <div>
                     <p className="font-bold text-white block mb-1">상담 문의</p>
-                    <p>전화: 02-518-0130 <span className="text-white/50 mx-2">|</span> 팩스: 02-518-0137</p>
-                    <p>이메일: rdscta@daum.net</p>
+                    <p>전화: <a href="tel:025180130" className="hover:text-[#D4A857] transition-colors">02-518-0130</a> <span className="text-white/50 mx-2">|</span> 팩스: 02-518-0137</p>
+                    <p>이메일: <a href="mailto:rdscta@daum.net" className="hover:text-[#D4A857] transition-colors">rdscta@daum.net</a></p>
                   </div>
                 </div>
 
@@ -373,10 +373,10 @@ export default function Home() {
                 <Link href="/consult" className="px-12 py-5 bg-[#D4A857] text-white font-bold rounded-sm hover:bg-[#C19545] transition-all text-lg shadow-2xl shadow-[#D4A857]/40 transform hover:-translate-y-1">
                   1:1 상담 예약하기
                 </Link>
-                <div className="flex items-center justify-center gap-4 text-white border border-slate-700 px-10 py-5 rounded-sm hover:bg-white/5 transition-colors cursor-pointer group">
+                <a href="tel:025180130" className="flex items-center justify-center gap-4 text-white border border-slate-700 px-10 py-5 rounded-sm hover:bg-white/5 transition-colors cursor-pointer group">
                   <Phone className="text-[#D4A857] group-hover:text-white transition-colors" size={24} />
                   <span className="text-2xl font-serif font-bold">02-518-0130</span>
-                </div>
+                </a>
               </div>
            </div>
         </section>
