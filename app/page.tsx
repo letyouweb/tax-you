@@ -93,21 +93,25 @@ export default function Home() {
           
           <div className="container mx-auto px-6 py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10 min-h-screen">
             <div className="pt-16 md:pt-0 flex flex-col">
-              <div className="flex items-center gap-3 mb-8 md:mb-10">
+              <div className="flex items-center gap-3 mb-6 md:mb-8">
                 <div className="w-8 md:w-10 h-[1px] bg-[#D4A857]"></div>
                 <span className="text-[#D4A857] font-medium tracking-wide text-xs md:text-sm">
-                  국세청 25년 · 세무조사 · 양도 · 상속 · 증여 · 조세불복 전문
+                  국세청 조사과 25년 경력 · 세무조사 전문
                 </span>
               </div>
               
-              <h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.75rem] md:text-[2.5rem] lg:text-[3.5rem] leading-snug tracking-tight">
-                복잡한 세무는<br />
-                유동수 세무회계에 맡기시고,<br />
-                <span className="text-[#D4A857]">대표님은</span><br />
-                <span className="text-[#D4A857]">사업에만 집중하세요.</span>
+              <h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.6rem] md:text-[2.2rem] lg:text-[3rem] leading-snug tracking-tight">
+                세무조사 통지서,<br />
+                <span className="text-[#D4A857]">받으셨습니까?</span><br />
+                <span className="text-white/90">첫 대응이 결과를 결정합니다.</span>
               </h1>
               
-              <div className="h-16 md:h-20"></div>
+              <p className="mt-6 md:mt-8 text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed max-w-lg font-light">
+                국세청 조사과 25년, 그들의 방식을 아는 세무사가<br className="hidden md:block" />
+                처음부터 끝까지 직접 방어합니다.
+              </p>
+              
+              <div className="h-10 md:h-14"></div>
               
               <div className="flex flex-col sm:flex-row gap-4 md:gap-5">
                 <a 
