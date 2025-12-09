@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GlobalFooter from '@/components/GlobalFooter';
 
 export const metadata: Metadata = {
   title: "유동수 세무회계 | 국세청 25년 경력 세무사",
@@ -30,7 +31,7 @@ export default function RootLayout({
           <div className="flex-grow">
             {children}
           </div>
-          <Footer />
+          <GlobalFooter />
         </div>
       </body>
     </html>
