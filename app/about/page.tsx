@@ -47,7 +47,7 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="relative">
              <div className="absolute top-6 -left-6 w-full h-full border-2 border-[#050B16] z-0"></div>
-             <img src="/images/Main.jpg" alt="유동수 세무사" className="relative z-10 w-full shadow-2xl grayscale object-cover" />
+             <img src="/images/hero-person.png" alt="유동수 세무사" className="relative z-10 w-full shadow-2xl grayscale object-cover" />
           </div>
           <div className="space-y-8">
             <h3 className="text-3xl font-serif font-bold text-slate-900">
