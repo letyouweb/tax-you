@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import ImageLightbox from '@/components/ImageLightbox';
+import { ScrollIndicator } from './ScrollIndicator';
 
 const awardsData = [
   {
@@ -42,7 +43,7 @@ export default function AwardsSection() {
 
   return (
     <>
-      <section className="snap-section py-20 bg-slate-50">
+      <section id="career" className="snap-section relative py-20 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16 space-y-4">
             <span className="text-[#D4A857] font-bold tracking-widest text-sm uppercase">CAREER</span>
@@ -81,6 +82,15 @@ export default function AwardsSection() {
               </div>
             ))}
           </div>
+        </div>
+        
+        {/* Scroll Indicator - 밝은 배경용 */}
+        <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+          <ScrollIndicator
+            targetId="contact"
+            direction="down"
+            className="text-slate-400"
+          />
         </div>
       </section>
 

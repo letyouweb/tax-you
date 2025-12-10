@@ -2,29 +2,25 @@
 
 import Link from 'next/link';
 import { Phone } from 'lucide-react';
+import { ScrollIndicator } from './ScrollIndicator';
 
 export default function CTASection() {
   return (
-    // h-screen: 한 화면 고정
-    <section className="snap-start h-screen flex flex-col bg-[#050B16] relative overflow-hidden">
+    <section id="cta" className="snap-start h-screen flex flex-col bg-[#050B16] relative overflow-hidden">
       
       {/* 배경 패턴 */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
 
-      {/* [상단] 상담 유도 영역 
-         ✅ 수정 포인트: 'pt-20'을 추가하여 전체 덩어리를 아래로 80px 정도 밀어 내림
-      */}
+      {/* [상단] 상담 유도 영역 */}
       <div className="flex-1 flex flex-col justify-center items-center text-center px-6 relative z-10 pt-20">
         
         {/* 텍스트 그룹 */}
         <div className="mb-16">
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white leading-tight">
-            {/* 줄 간격 유지 */}
             <span className="block mb-8">복잡한 세금 문제,</span>
             <span className="text-[#D4A857] drop-shadow-md">지금 바로 상담받으세요.</span>
           </h2>
           
-          {/* 불필요한 문구 삭제됨 */}
           <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed mt-10 opacity-90">
             국세청 25년 경력의 전문가가 첫 상담부터 끝까지 직접 책임지고 함께합니다.
           </p>
@@ -49,6 +45,15 @@ export default function CTASection() {
             <span className="text-2xl font-serif font-bold tracking-wide">02-518-0130</span>
           </a>
         </div>
+      </div>
+
+      {/* Scroll Indicator - 맨 위로 */}
+      <div className="absolute left-1/2 bottom-32 -translate-x-1/2 z-30">
+        <ScrollIndicator
+          targetId="hero"
+          direction="up"
+          className="text-white/70"
+        />
       </div>
 
       {/* [하단] Footer 영역 */}

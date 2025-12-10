@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { TrendingUp, Phone, FileText } from 'lucide-react';
+import { ScrollIndicator } from './ScrollIndicator';
 
 // KakaoMap은 클라이언트에서만 로드
 const KakaoMap = dynamic(() => import('@/components/KakaoMap'), { 
@@ -15,7 +16,7 @@ const KakaoMap = dynamic(() => import('@/components/KakaoMap'), {
 
 export default function LocationSection() {
   return (
-    <section className="snap-section py-20 relative overflow-hidden">
+    <section id="contact" className="snap-section relative py-20 overflow-hidden">
       {/* 배경 이미지 */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -74,6 +75,15 @@ export default function LocationSection() {
             height="360px"
           />
         </div>
+      </div>
+      
+      {/* Scroll Indicator - 어두운 배경용 */}
+      <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+        <ScrollIndicator
+          targetId="cta"
+          direction="down"
+          className="text-white/70"
+        />
       </div>
     </section>
   );

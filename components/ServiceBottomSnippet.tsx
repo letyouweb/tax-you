@@ -11,11 +11,16 @@ interface ServiceBottomSnippetProps {
 }
 
 export default function ServiceBottomSnippet({ 
-  type, 
+  type,
   caseText, 
   resultText, 
   roleText 
 }: ServiceBottomSnippetProps) {
+  // 타입에 따른 버튼 문구
+  const buttonText = type === 'investigation' 
+    ? '국세청 출신에게 직접 묻기' 
+    : '숨은 절세 포인트 확인하기';
+
   return (
     <div className="mt-12 space-y-6">
       {/* 사례 스니펫 박스 */}
@@ -46,33 +51,14 @@ export default function ServiceBottomSnippet({
         </div>
       </div>
 
-      {/* CTA 버튼 영역 */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        {/* 메인 CTA */}
+      {/* CTA 버튼 - 1개만 */}
+      <div className="flex justify-center">
         <Link 
           href="/consult"
-          className="flex-1 px-8 py-4 bg-[#D4A857] text-white font-bold rounded-sm hover:bg-[#C19545] transition-all text-center flex items-center justify-center gap-3 shadow-lg shadow-[#D4A857]/20"
+          className="px-10 py-4 bg-[#D4A857] text-white font-bold rounded-sm hover:bg-[#C19545] transition-all text-center flex items-center justify-center gap-3 shadow-lg shadow-[#D4A857]/20"
         >
-          내 상황 진단받기 <ArrowRight size={18} />
+          {buttonText} <ArrowRight size={18} />
         </Link>
-
-        {/* 보조 CTA - 타입에 따라 다른 스타일 */}
-        {type === 'investigation' ? (
-          <Link 
-            href="/consult"
-            className="flex-1 px-8 py-4 border border-slate-300 text-slate-700 font-medium rounded-sm hover:border-[#D4A857] hover:text-[#D4A857] transition-all text-center flex items-center justify-center gap-2"
-          >
-            국세청 출신에게 직접 묻기 <ArrowRight size={16} />
-          </Link>
-        ) : (
-          <Link 
-            href="/consult"
-            className="flex-1 px-8 py-4 bg-slate-100 text-slate-700 font-medium rounded-sm hover:bg-slate-200 transition-all text-center flex items-center justify-center gap-2 group"
-          >
-            <span className="group-hover:text-[#D4A857] transition-colors">숨은 절세 포인트 확인하기</span> 
-            <ArrowRight size={16} className="group-hover:text-[#D4A857] transition-colors" />
-          </Link>
-        )}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { AlertCircle, TrendingUp, Users, Lock } from 'lucide-react';
+import { ScrollIndicator } from './ScrollIndicator';
 
 export default function InsightSection() {
   const insights = [
@@ -32,15 +33,16 @@ export default function InsightSection() {
   ];
 
   return (
-    <section className="snap-section py-20 bg-white">
+    <section id="insight" className="snap-section relative py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
           <span className="text-[#D4A857] font-bold tracking-widest text-sm uppercase">INSIGHT</span>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
-            혼자 고민하지 마세요, <span className="text-[#D4A857]">답은 여기 있습니다</span>
+            혼자 고민하지 마세요
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto font-light">
-            "처음 겪어보는 상황이라 뭐부터 해야 할지 모르겠어요"라는 분들이 가장 많이 묻는 4가지입니다.
+            세무조사, 상속, 증여... 처음 겪는 일이라 막막하시죠.<br className="hidden md:block" />
+            국세청 25년 경력의 전문가가 대표님 편에서 끝까지 함께합니다.
           </p>
         </div>
         <div className="grid md:grid-cols-4 gap-6">
@@ -57,6 +59,15 @@ export default function InsightSection() {
             </Link>
           ))}
         </div>
+      </div>
+      
+      {/* Scroll Indicator - 밝은 배경용 */}
+      <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+        <ScrollIndicator
+          targetId="success-cases"
+          direction="down"
+          className="text-slate-400"
+        />
       </div>
     </section>
   );

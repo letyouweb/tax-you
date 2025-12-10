@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { Shield, FileText, Lock, Calculator, CheckCircle2 } from 'lucide-react';
+import { ScrollIndicator } from './ScrollIndicator';
 
 export default function ServicesSection() {
   return (
-    <section className="snap-section py-16 bg-[#050B16] text-white">
+    <section id="services" className="snap-section relative py-16 bg-[#050B16] text-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-10">
           <span className="text-[#D4A857] font-bold tracking-widest text-sm uppercase">SERVICES</span>
@@ -82,6 +83,15 @@ export default function ServicesSection() {
             <Link href="/consult" className="w-full py-3 bg-[#D4A857] text-white text-center font-bold rounded-sm hover:bg-[#C19545] transition-all text-sm shadow-md mt-auto">상시 자문 문의</Link>
           </div>
         </div>
+      </div>
+      
+      {/* Scroll Indicator - 어두운 배경용 */}
+      <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+        <ScrollIndicator
+          targetId="career"
+          direction="down"
+          className="text-white/70"
+        />
       </div>
     </section>
   );

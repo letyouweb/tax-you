@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { ScrollIndicator } from './ScrollIndicator';
 
 interface CaseRow {
   category: string;
@@ -60,7 +61,7 @@ const caseData: CaseRow[] = [
 
 export default function SuccessCasesSection() {
   return (
-    <section className="py-20 bg-[#050B16]">
+    <section id="success-cases" className="relative py-20 bg-[#050B16]">
       <div className="container mx-auto px-6">
         {/* 섹션 헤더 */}
         <div className="text-center mb-16 space-y-4">
@@ -195,6 +196,15 @@ export default function SuccessCasesSection() {
             나도 상담받기 <ArrowRight size={20} />
           </Link>
         </div>
+      </div>
+      
+      {/* Scroll Indicator - 어두운 배경용 */}
+      <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+        <ScrollIndicator
+          targetId="services"
+          direction="down"
+          className="text-white/70"
+        />
       </div>
     </section>
   );

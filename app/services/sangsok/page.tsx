@@ -8,7 +8,7 @@ export default function SangsokPage() {
     <div className="bg-white min-h-screen">
       <PageHeader 
         title="상속세" 
-        subTitle="사망한 사람의 재산을 상속받은 경우 부과되는 세금입니다." 
+        subTitle="국세청 25년, 명예로운 마침표가 이제 고객님의 자산을 지키는 시작이 됩니다." 
       />
       
       <div className="container mx-auto px-6 py-20 space-y-24">

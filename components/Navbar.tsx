@@ -12,12 +12,14 @@ const Navbar = () => {
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const pathname = usePathname();
 
+  // 1. 스크롤 감지 로직 (수정 없음, 그대로 유지)
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const checkScroll = () => {
+      setIsScrolled(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    checkScroll();
+    window.addEventListener('scroll', checkScroll);
+    return () => window.removeEventListener('scroll', checkScroll);
   }, []);
 
   // 모바일 메뉴 열릴 때 스크롤 방지
@@ -32,10 +34,29 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
-  const isMain = pathname === '/';
-  const isTransparent = isMain && !isScrolled && !isMobileMenuOpen;
+  // 메인 페이지 여부
+  const isMainPage = pathname === '/';
+  
+  // 2. 투명 배경 조건 (논리 강화)
+  // 메인 페이지이면서 + 스크롤이 최상단이고 + 모바일 메뉴가 닫혀있을 때만 투명
+  const isTransparent = isMainPage && !isScrolled && !isMobileMenuOpen;
 
-  // 전문분야 하위 메뉴
+  // 3. 색상 설정 (가장 중요한 수정 부분)
+  // 스크롤 되면 무조건 검정(#050B16), 투명 상태일 때만 흰색
+  const logoColor = isTransparent ? '#FFFFFF' : '#050B16'; 
+  const menuTextColor = isTransparent ? '#e2e8f0' : '#334155';
+  
+  // 햄버거 버튼 색상 (모바일 메뉴가 열려있으면 무조건 흰색, 닫혀있으면 배경에 따라 다름)
+  const hamburgerColor = isMobileMenuOpen ? '#FFFFFF' : (isTransparent ? '#FFFFFF' : '#050B16');
+
+  // 배경 클래스 (scrolled-header 클래스 추가하여 globals.css와 연동)
+  const navContainerClass = `fixed w-full z-50 transition-all duration-300 ${
+    isTransparent 
+      ? 'bg-transparent py-6' 
+      : 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header'
+  }`;
+
+  // 전문분야 하위 메뉴 데이터
   const servicesSubMenu = [
     { name: '양도소득세', path: '/services/yangdo' },
     { name: '상속세', path: '/services/sangsok' },
@@ -51,21 +72,16 @@ const Navbar = () => {
   ];
 
   return (
-    <nav 
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        isTransparent 
-          ? 'bg-transparent py-6' 
-          : 'bg-white py-4 shadow-lg border-b border-slate-100'
-      }`}
-    >
+    <nav className={navContainerClass}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* 로고 */}
         <Link 
           href="/" 
-          className="font-serif text-xl md:text-2xl tracking-widest font-bold z-50"
-          style={{ color: isTransparent ? '#FFFFFF' : '#050B16' }}
+          className="font-serif text-xl md:text-2xl tracking-widest font-bold z-50 transition-colors duration-300 group"
+          style={{ color: logoColor }}
         >
           유동수 세무회계
+          {/* 서브 텍스트는 골드색 유지 */}
           <span className="block text-[10px] md:text-xs font-sans font-light tracking-[0.3em] text-[#D4A857] mt-1">
             TAX & ACCOUNTING
           </span>
@@ -84,15 +100,16 @@ const Navbar = () => {
               >
                 <Link 
                   href={item.path}
+                  className="text-sm font-medium hover:text-[#D4A857] transition-colors duration-300 tracking-wide flex items-center gap-1"
                   style={{ 
-                    color: pathname.startsWith('/services')
-                      ? '#D4A857' 
-                      : isTransparent ? '#cbd5e1' : '#050B16'
+                    color: pathname.startsWith('/services') ? '#D4A857' : menuTextColor
                   }}
-                  className="text-sm font-light hover:!text-[#D4A857] transition-colors tracking-wide flex items-center gap-1"
                 >
                   {item.name}
-                  <ChevronDown size={14} className={`transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown 
+                    size={14} 
+                    className={`transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} 
+                  />
                 </Link>
                 
                 {/* 드롭다운 메뉴 */}
@@ -116,38 +133,46 @@ const Navbar = () => {
               <Link 
                 key={item.name} 
                 href={item.path}
+                className="text-sm font-medium hover:text-[#D4A857] transition-colors duration-300 tracking-wide"
                 style={{ 
-                  color: pathname === item.path 
-                    ? '#D4A857' 
-                    : isTransparent ? '#cbd5e1' : '#050B16'
+                  color: pathname === item.path ? '#D4A857' : menuTextColor
                 }}
-                className="text-sm font-light hover:!text-[#D4A857] transition-colors tracking-wide"
               >
                 {item.name}
               </Link>
             )
           ))}
+          
+          {/* 상담 문의 버튼 */}
           <Link href="/consult">
-            <button className="px-5 py-2 border border-[#D4A857] text-[#D4A857] rounded-sm hover:bg-[#D4A857] hover:text-white transition-all text-sm tracking-wide">
+            <button 
+              className={`px-5 py-2 border rounded-sm transition-all duration-300 text-sm tracking-wide font-medium
+                ${isTransparent 
+                  ? 'border-[#D4A857] text-[#D4A857] hover:bg-[#D4A857] hover:text-white' 
+                  : 'border-[#050B16] text-[#050B16] hover:bg-[#050B16] hover:text-white'
+                }
+              `}
+            >
               상담 문의
             </button>
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - 색상 동적 변경 적용 */}
         <button 
-          className="md:hidden z-50 transition-colors p-2"
-          style={{ color: isMobileMenuOpen ? '#FFFFFF' : (isTransparent ? '#FFFFFF' : '#050B16') }}
+          className="md:hidden z-50 p-2 transition-colors duration-300 focus:outline-none"
+          style={{ color: hamburgerColor }}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="메뉴 열기/닫기"
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu Full-Screen Overlay */}
+      {/* Mobile Menu Full-Screen Overlay (기존 디자인 유지) */}
       <div 
         className={`fixed inset-0 bg-[#020617] md:hidden z-40 transition-all duration-300 ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
       >
         {/* 상단 고정 헤더 영역 */}
@@ -162,6 +187,7 @@ const Navbar = () => {
               TAX & ACCOUNTING
             </span>
           </Link>
+          {/* 닫기 버튼 자리는 button 태그가 absolute가 아니므로 위쪽 button이 z-50으로 처리함 */}
         </div>
 
         {/* 메뉴 항목들 - 세로 중앙 정렬 */}
@@ -197,7 +223,10 @@ const Navbar = () => {
               className="text-2xl text-white font-medium hover:text-[#D4A857] transition-colors tracking-wide flex items-center gap-3"
             >
               전문분야
-              <ChevronDown size={22} className={`transition-transform duration-200 ${isMobileServicesOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown 
+                size={22} 
+                className={`transition-transform duration-200 ${isMobileServicesOpen ? 'rotate-180' : ''}`} 
+              />
             </button>
             
             <div className={`mt-4 flex flex-col items-center space-y-4 overflow-hidden transition-all duration-300 ${

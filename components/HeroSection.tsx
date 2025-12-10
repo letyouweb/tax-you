@@ -2,13 +2,34 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, FileText, Medal } from 'lucide-react';
+import { Phone, FileText } from 'lucide-react'; // Medal 아이콘은 이미지로 대체되어 제거함
+import HeroButtons from './HeroButtons';
+
+// [추가] 요청하신 배지 컴포넌트
+function HeroBadge() {
+  return (
+    <div className="inline-flex w-fit items-center gap-3 bg-[#D4A857]/10 border border-[#D4A857]/40 px-4 py-2 rounded-full mb-6">
+      <Image
+        src="/images/medal-badge-icon.png"
+        alt="국세청 근무 25년 · 국세청장 표창 수상 세무사"
+        width={32}
+        height={32}
+        className="w-7 h-7 md:w-8 md:h-8 object-contain drop-shadow-sm"
+        priority
+      />
+      <span className="text-[11px] md:text-sm font-medium text-[#D4A857] tracking-tight">
+        국세청 근무 25년 · 국세청장 표창 수상 세무사
+      </span>
+    </div>
+  );
+}
 
 export default function HeroSection() {
   const bgColor = '#050B16';
   
   return (
     <section 
+      id="hero" 
       // [수정 1] md:h-screen : 데스크탑에서는 무조건 화면 높이 100%로 고정 (스크롤 방지)
       // min-h-screen : 모바일에서는 내용이 길어지면 늘어나도록 유지
       className="snap-section relative text-white overflow-hidden min-h-screen md:h-screen flex flex-col justify-center"
@@ -24,13 +45,8 @@ export default function HeroSection() {
         {/* 모바일에서는 여백 필요하므로 py-20, 데스크탑은 자동 중앙 정렬이므로 padding 최소화 */}
         <div className="pt-24 pb-10 md:py-0 flex flex-col justify-center h-full z-20">
           
-          {/* 뱃지 */}
-          <div className="inline-flex items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/30 px-4 py-2 rounded-full mb-6 w-fit">
-            <Medal className="w-4 h-4 text-[#D4A857]" />
-            <span className="text-[#D4A857] text-xs md:text-sm font-medium">
-              국세청 근무 25년 · 국세청장 표창 수상 세무사
-            </span>
-          </div>
+          {/* [수정 5] 기존 텍스트 배지를 새로 만든 HeroBadge 컴포넌트로 교체 */}
+          <HeroBadge />
           
           {/* Headline */}
           <h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.6rem] md:text-[2.2rem] lg:text-[3rem] leading-snug tracking-tight">
@@ -43,11 +59,6 @@ export default function HeroSection() {
           <p className="mt-6 md:mt-8 text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed max-w-lg font-light">
             국세청 조사과 25년, 그들의 방식을 아는 세무사가<br className="hidden md:block" />
             처음부터 끝까지 직접 방어합니다.
-          </p>
-          
-          {/* 전문 분야 */}
-          <p className="text-sm text-slate-400 mt-4">
-            세무조사 · 양도 · 상속 · 증여 · 조세불복 전문
           </p>
           
           <div className="h-8 md:h-12"></div>
@@ -105,6 +116,9 @@ export default function HeroSection() {
         </div>
         
       </div>
+      
+      {/* 하단 서비스 버튼 + 스크롤 힌트 */}
+      <HeroButtons />
     </section>
   );
 }

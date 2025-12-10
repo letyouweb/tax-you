@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalFooter from '@/components/GlobalFooter';
+import FloatingButtons from "@/components/FloatingButtons";
 
 export const metadata: Metadata = {
   title: "유동수 세무회계 | 국세청 25년 경력 세무사",
@@ -32,6 +33,7 @@ export default function RootLayout({
             {children}
           </div>
           <GlobalFooter />
+          <FloatingButtons />
         </div>
       </body>
     </html>
