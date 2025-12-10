@@ -13,30 +13,30 @@ const Navbar = () => {
   // 현재 보고 있는 섹션 번호 (0부터 시작)
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   
+  // ✅ [수정 1] 화면 너비 상태 추가 (초기값은 false 또는 0)
+  const [isDesktop, setIsDesktop] = useState(false);
+  
   const pathname = usePathname();
   const isMainPage = pathname === '/';
 
-  // ⭐️ [중요] 어두운 배경을 가진 섹션 번호 설정 (스크린샷 분석 결과 반영)
-  // 0: 메인(Hero)
-  // 2: 서비스 소개 (Dark Navy)
-  // 4: 오시는 길 (배경 이미지)
-  // 5: 하단 상담 문의 (Dark Navy)
+  // ⭐️ [중요] 어두운 배경을 가진 섹션 번호 설정
+  // 0: 메인(Hero), 2: 서비스 소개, 4: 오시는 길, 5: 하단 상담 문의
   const DARK_BG_SECTIONS = [0, 2, 4, 5]; 
 
   useEffect(() => {
     const handleScroll = () => {
+      // ✅ [수정 2] window.innerWidth 체크를 여기서 수행하여 state에 저장
+      const currentWidth = window.innerWidth;
+      setIsDesktop(currentWidth >= 1024);
+
       // 1. PC 화면: 스냅 컨테이너 기준
       const snapContainer = document.querySelector('.snap-container');
       
-      if (snapContainer && isMainPage && window.innerWidth >= 1024) {
-        // 현재 스크롤 위치를 화면 높이로 나누어 몇 번째 섹션인지 계산 (반올림)
-        // 예: 높이가 1000일 때 스크롤이 2000이면 2번째 섹션
+      if (snapContainer && isMainPage && currentWidth >= 1024) {
         const index = Math.round(snapContainer.scrollTop / window.innerHeight);
         setCurrentSectionIndex(index);
       } else {
-        // 2. 모바일/일반 화면: 스크롤이 최상단(0)일 때만 투명하게 처리하기 위해 index 0, 그 외엔 1(흰 배경)로 취급
-        // 단, 모바일에서도 특정 위치를 감지하려면 복잡해지므로, 보통 모바일은 최상단만 투명하게 하거나 유지합니다.
-        // 여기서는 "스크롤 내리면 무조건 흰색"인 기존 관습을 따르되, PC 스냅 스크롤에 최적화합니다.
+        // 2. 모바일/일반 화면
         setCurrentSectionIndex(window.scrollY < 50 ? 0 : 1);
       }
     };
@@ -69,28 +69,25 @@ const Navbar = () => {
   }, [isMobileMenuOpen]);
 
   // 👉 현재 상태 계산
-  // PC 스냅 모드일 때: 설정한 어두운 섹션 목록에 포함되는가?
-  // 일반 모드일 때: 스크롤이 최상단(0)인가?
+  // ✅ [수정 3] window.innerWidth 대신 state 변수(isDesktop) 사용
   const isDarkSection = isMainPage && (
-     (window.innerWidth >= 1024 && DARK_BG_SECTIONS.includes(currentSectionIndex)) || 
-     (window.innerWidth < 1024 && currentSectionIndex === 0)
+     (isDesktop && DARK_BG_SECTIONS.includes(currentSectionIndex)) || 
+     (!isDesktop && currentSectionIndex === 0)
   );
 
   // 텍스트 색상 결정 로직
-  // 어두운 섹션(isDarkSection)이면서 모바일 메뉴가 닫혀있으면 -> 흰색 글씨
-  // 그 외(밝은 섹션이거나 모바일 메뉴 열림) -> 검정 글씨
   const shouldUseWhiteText = isDarkSection && !isMobileMenuOpen;
 
   const textColor = shouldUseWhiteText ? '#FFFFFF' : '#050B16';
   const menuTextColor = shouldUseWhiteText ? '#e2e8f0' : '#334155';
   
-  // 배경 클래스: 어두운 섹션이면 투명, 아니면 흰색
+  // 배경 클래스
   const navBackgroundClass = (isDarkSection && !isMobileMenuOpen)
     ? 'bg-transparent py-6 border-transparent' 
     : 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header';
 
   // 햄버거 버튼 색상
-  const hamburgerColor = isMobileMenuOpen ? '#050B16' : textColor; // 모바일 메뉴 열리면 검정(배경 흰색 가정 시)
+  const hamburgerColor = isMobileMenuOpen ? '#050B16' : textColor;
 
   // 전문분야 하위 메뉴 데이터
   const servicesSubMenu = [
@@ -200,17 +197,14 @@ const Navbar = () => {
         }`}
       >
         <div className="fixed top-0 left-0 right-0 px-6 py-6 flex justify-between items-center z-50">
-           {/* 로고 위치 확보용 투명 박스 (닫기 버튼은 위쪽 Navbar의 X가 담당) */}
            <div className="h-10"></div>
         </div>
 
-        {/* 모바일 메뉴 컨텐츠 (검정 글씨 테마) */}
         <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24 space-y-8">
            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">대표 세무사</Link>
            <Link href="/insight" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">인사이트</Link>
            
-           {/* 모바일 전문분야 토글 */}
            <div className="flex flex-col items-center">
             <button onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium flex items-center gap-3">
               전문분야 <ChevronDown size={22} className={isMobileServicesOpen ? 'rotate-180' : ''} />
