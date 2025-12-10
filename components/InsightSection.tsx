@@ -4,13 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AlertCircle, TrendingUp, Users, Lock, ChevronRight, ChevronDown } from 'lucide-react';
 
-// [복구] Insight 섹션용 플랫(Flat) 배지
-// 3D 이미지 대신 CSS로 깔끔하게 처리하여 '공감' 톤앤매너 유지
+// [배지] 플랫 스타일 유지
 function InsightBadge() {
   return (
-    <div className="inline-flex items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/40 px-4 py-1.5 rounded-full mb-6 shadow-sm">
+    <div className="inline-flex items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/40 px-4 py-1.5 rounded-full mb-4 shadow-sm">
       <Image
-        src="/images/medal-badge-icon.png" // 기존 작은 아이콘 사용
+        src="/images/medal-badge-icon.png" 
         alt="국세청 출신 전문가"
         width={24}
         height={24}
@@ -51,7 +50,6 @@ export default function InsightSection() {
     }
   ];
 
-  // 스크롤 이동 함수
   const handleScrollDown = () => {
     const nextSection = document.getElementById('services-section');
     if (nextSection) {
@@ -60,18 +58,20 @@ export default function InsightSection() {
   };
 
   return (
-    <section id="insight" className="snap-section relative py-20 md:py-24 bg-white">
+    // [수정 1] min-h-screen + justify-center : 화면 꽉 채우고 수직 중앙 정렬
+    // py-24 -> py-12 : 위아래 불필요한 여백 대폭 삭제
+    <section id="insight" className="snap-section relative min-h-screen flex flex-col justify-center bg-white py-12 md:py-0">
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Header Area */}
-        <div className="text-center mb-16 space-y-2">
+        {/* [수정 2] mb-16 -> mb-10 : 헤더와 카드 사이 간격 축소 */}
+        <div className="text-center mb-10 md:mb-12 space-y-2">
           
-          {/* [수정] 3D 이미지 제거 -> 플랫 배지로 교체 */}
           <div className="flex justify-center">
             <InsightBadge />
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-tight pb-2">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-tight pb-1">
             혼자 고민하지 마세요
           </h2>
           <p className="text-slate-700 max-w-2xl mx-auto font-light leading-relaxed text-lg">
@@ -81,24 +81,24 @@ export default function InsightSection() {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {insights.map((card, idx) => (
             <Link 
               href="/insight" 
               key={idx} 
-              className="group bg-slate-50 p-8 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 hover:border-[#D4A857] cursor-pointer text-left flex flex-col"
+              className="group bg-slate-50 p-6 md:p-8 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 hover:border-[#D4A857] cursor-pointer text-left flex flex-col"
             >
-              <div className="mb-6 p-3 bg-white w-fit rounded-lg shadow-sm group-hover:bg-[#D4A857]/10 transition-colors">
+              <div className="mb-4 md:mb-6 p-3 bg-white w-fit rounded-lg shadow-sm group-hover:bg-[#D4A857]/10 transition-colors">
                 <div className="text-slate-400 group-hover:text-[#D4A857] transition-colors">
                   {card.icon}
                 </div>
               </div>
               
-              <div className="text-xs text-[#D4A857] font-bold mb-3 tracking-wide uppercase">
+              <div className="text-xs text-[#D4A857] font-bold mb-2 md:mb-3 tracking-wide uppercase">
                 {card.title}
               </div>
               
-              <h3 className="font-serif text-xl font-bold text-slate-900 mb-4 group-hover:text-[#D4A857] transition-colors">
+              <h3 className="font-serif text-lg md:text-xl font-bold text-slate-900 mb-3 md:mb-4 group-hover:text-[#D4A857] transition-colors">
                 {card.sub}
               </h3>
               
@@ -110,23 +110,24 @@ export default function InsightSection() {
         </div>
 
         {/* 하단 CTA 버튼 */}
-        <div className="mt-16 text-center pb-8">
+        {/* [수정 3] mt-16 -> mt-10 : 카드와 버튼 사이 간격 축소 */}
+        <div className="mt-10 md:mt-12 text-center pb-4">
           <Link 
             href="/consult"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-[#D4A857] transition-all duration-300 group shadow-lg shadow-slate-200"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-[#D4A857] transition-all duration-300 group shadow-lg shadow-slate-200 text-sm md:text-base"
           >
             내 상황에 맞는 해결책 상담하기
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-3 text-xs md:text-sm text-slate-500">
             초기 상담은 100% 비밀이 보장됩니다.
           </p>
         </div>
 
       </div>
       
-      {/* Scroll Indicator: 글자 없이 화살표만 깔끔하게 */}
-      <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+      {/* [수정 4] 스크롤 화살표 고정 (bottom-6 ~ bottom-10) */}
+      <div className="absolute left-1/2 bottom-6 md:bottom-10 -translate-x-1/2 z-30">
         <button 
           onClick={handleScrollDown}
           className="p-2 opacity-40 hover:opacity-100 transition-opacity duration-300 cursor-pointer"

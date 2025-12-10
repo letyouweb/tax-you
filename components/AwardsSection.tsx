@@ -43,25 +43,48 @@ export default function AwardsSection() {
 
   return (
     <>
-      <section id="career" className="snap-section relative py-20 bg-slate-50">
+      {/* [수정 1] min-h-screen flex flex-col justify-center
+         - 섹션 높이를 화면 전체로 잡고, 내용물을 수직 중앙 정렬합니다.
+         - 이렇게 해야 스크롤 화살표가 항상 화면 맨 아래에 고정됩니다.
+      */}
+      <section id="awards" className="snap-section relative min-h-screen flex flex-col justify-center bg-slate-50 py-12 md:py-0">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16 space-y-4">
-            <span className="text-[#D4A857] font-bold tracking-widest text-sm uppercase">CAREER</span>
-            <p className="text-slate-500 max-w-2xl mx-auto font-light">
+          
+          {/* Header Area */}
+          {/* [수정 2] mb-16 -> mb-10 : 그리드와의 간격을 줄임 */}
+          <div className="text-center mb-10 md:mb-12 space-y-3">
+            
+            {/* 3D 골드 배지 */}
+            <div className="flex justify-center mb-4">
+              <Image 
+                src="/images/badge-gold-3d.png" 
+                alt="국세청 25년 경력 조사팀장 출신"
+                width={360} 
+                height={80}
+                className="object-contain h-auto drop-shadow-xl hover:scale-105 transition-transform duration-500"
+                priority
+              />
+            </div>
+
+            <p className="text-slate-500 max-w-2xl mx-auto font-light text-lg">
               세무조사 첫 대응부터 조세불복까지
             </p>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
-              국세청 25년 <span className="text-[#5B9BD5]">경험으로 함께합니다</span>
+            
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-tight">
+              국세청 25년 <span className="text-[#D4A857]">경험으로 함께합니다</span>
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+
+          {/* Awards Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-7xl mx-auto">
             {awardsData.map((award, idx) => (
               <div 
                 key={idx}
-                className="bg-white p-4 pb-8 rounded shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                className="bg-white p-4 pb-6 rounded shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-[#D4A857]/30"
                 onClick={() => openLightbox(award.src, award.alt)}
               >
-                <div className="aspect-[3/4] bg-slate-100 overflow-hidden rounded mb-6 border border-slate-100 relative">
+                {/* [수정 3] 이미지 비율 조정 및 하단 여백 축소 */}
+                <div className="aspect-[3/4] bg-slate-100 overflow-hidden rounded mb-4 border border-slate-100 relative">
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10 flex items-center justify-center">
                     <span className="opacity-0 group-hover:opacity-100 text-white font-bold text-sm bg-black/50 px-4 py-2 rounded transition-opacity">
                       클릭하여 확대
@@ -75,21 +98,26 @@ export default function AwardsSection() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
-                <div className="px-2 text-center">
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">{award.title}</h3>
-                  <p className="text-sm text-slate-500 font-light line-clamp-2">{award.desc}</p>
+                <div className="px-1 text-center">
+                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-1 group-hover:text-[#D4A857] transition-colors">
+                    {award.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 font-light line-clamp-2">
+                    {award.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
         
-        {/* Scroll Indicator - 밝은 배경용 */}
-        <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
+        {/* [수정 4] 스크롤 화살표 위치 고정 */}
+        {/* bottom-6 md:bottom-10 : 화면 맨 아래에 고정됨 */}
+        <div className="absolute left-1/2 bottom-6 md:bottom-10 -translate-x-1/2 z-30">
           <ScrollIndicator
-            targetId="contact"
+            targetId="location-section" 
             direction="down"
-            className="text-slate-400"
+            className="text-slate-400 hover:text-[#D4A857] transition-colors"
           />
         </div>
       </section>
