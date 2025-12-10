@@ -5,19 +5,22 @@ import Image from 'next/image';
 import { Phone, FileText } from 'lucide-react'; // Medal 아이콘은 이미지로 대체되어 제거함
 import HeroButtons from './HeroButtons';
 
-// [추가] 요청하신 배지 컴포넌트
+// [수정] 배지를 더 날렵하고 세련되게 변경 (Slim Version)
 function HeroBadge() {
   return (
-    <div className="inline-flex w-fit items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/40 px-3.5 py-1.5 rounded-full mb-7 md:-mt-10 transition-all duration-300">
+    // py-2 -> py-1.5 : 위아래 두께를 줄여서 날렵하게
+    // gap-3 -> gap-2 : 아이콘과 글자 사이를 좁혀서 밀도감 높임
+    <div className="inline-flex w-fit items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/40 px-4 py-1.5 rounded-full mb-8 md:-mt-12 transition-all duration-300">
       <Image
         src="/images/medal-badge-icon.png"
         alt="국세청 근무 25년 · 국세청장 표창 수상 세무사"
-        width={28}
-        height={28}
-        className="w-6 h-6 md:w-7 md:h-7 object-contain drop-shadow-sm"
+        width={32}
+        height={32}
+        // w-7/w-8 -> w-5/w-6 : 아이콘 크기를 줄여서 배지 높이를 낮춤
+        className="w-5 h-5 md:w-6 md:h-6 object-contain drop-shadow-sm"
         priority
       />
-      <span className="text-[11px] md:text-[13px] font-medium text-[#D4A857] tracking-tight">
+      <span className="text-[11px] md:text-sm font-medium text-[#D4A857] tracking-tight pt-[1px]">
         국세청 근무 25년 · 국세청장 표창 수상 세무사
       </span>
     </div>
@@ -44,25 +47,31 @@ export default function HeroSection() {
         
         {/* Left Content */}
         {/* 모바일에서는 여백 필요하므로 py-20, 데스크탑은 자동 중앙 정렬이므로 padding 최소화 */}
-        <div className="pt-24 pb-10 md:py-0 flex flex-col justify-center h-full z-20">
-          
-          {/* [수정 5] 기존 텍스트 배지를 새로 만든 HeroBadge 컴포넌트로 교체 */}
-          <HeroBadge />
-          
-          {/* Headline */}
-          <h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.6rem] md:text-[2.2rem] lg:text-[3rem] leading-snug tracking-tight">
-            세무조사 통지서,<br />
-            <span className="text-[#D4A857]">받으셨습니까?</span><br />
-            <span className="text-white/90">첫 대응이 결과를 결정합니다.</span>
-          </h1>
-          
-          {/* Sub-headline */}
-          <p className="mt-6 md:mt-8 text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed max-w-lg font-light">
-            국세청 조사과 25년, 그들의 방식을 아는 세무사가<br className="hidden md:block" />
-            처음부터 끝까지 직접 방어합니다.
-          </p>
-          
-          <div className="h-8 md:h-12"></div>
+<div className="pt-24 pb-10 md:py-0 flex flex-col justify-center h-full z-20"> {/* Perplexity의 여백 아이디어 반영 */}
+  
+  <HeroBadge />
+  
+{/* 1. 질문 (Hook): 한 줄로 통합 */}
+<h1 className="font-serif font-bold text-white drop-shadow-lg text-[1.5rem] md:text-[2.0rem] lg:text-[2.6rem] leading-snug tracking-tight">
+  세무조사 통지서, <span className="text-[#D4A857]">받으셨습니까?</span>
+</h1>
+
+{/* 2. 여백 (Breathing Room): 질문과 해결책 사이를 띄워줌 */}
+<div className="h-6 md:h-8"></div> 
+
+{/* 3. 해결책 (Punchline): 태그 분리 및 강조 */}
+<p className="font-sans font-bold text-white/90 text-[1.2rem] md:text-[1.5rem] lg:text-[1.8rem] leading-tight">
+  첫 대응이 결과를 결정합니다.
+</p>
+
+{/* 설명 문구 */}
+<p className="mt-6 md:mt-8 text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed max-w-lg font-light">
+  국세청 조사과 25년, 그들의 방식을 아는 세무사가<br className="hidden md:block" />
+  처음부터 끝까지 직접 방어합니다.
+</p>
+
+  {/* 버튼 간격 시원하게 */}
+  <div className="h-10 md:h-14"></div>
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 md:gap-5">
