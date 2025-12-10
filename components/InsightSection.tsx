@@ -1,8 +1,27 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
-import { AlertCircle, TrendingUp, Users, Lock } from 'lucide-react';
-import { ScrollIndicator } from './ScrollIndicator';
+import { AlertCircle, TrendingUp, Users, Lock, ChevronRight, ChevronDown } from 'lucide-react';
+
+// [복구] Insight 섹션용 플랫(Flat) 배지
+// 3D 이미지 대신 CSS로 깔끔하게 처리하여 '공감' 톤앤매너 유지
+function InsightBadge() {
+  return (
+    <div className="inline-flex items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/40 px-4 py-1.5 rounded-full mb-6 shadow-sm">
+      <Image
+        src="/images/medal-badge-icon.png" // 기존 작은 아이콘 사용
+        alt="국세청 출신 전문가"
+        width={24}
+        height={24}
+        className="w-5 h-5 object-contain"
+      />
+      <span className="text-xs md:text-sm font-bold text-[#b38836] tracking-tight pt-[1px]">
+        국세청 25년 경력 · 실무 해결 전문가
+      </span>
+    </div>
+  );
+}
 
 export default function InsightSection() {
   const insights = [
@@ -32,42 +51,89 @@ export default function InsightSection() {
     }
   ];
 
+  // 스크롤 이동 함수
+  const handleScrollDown = () => {
+    const nextSection = document.getElementById('services-section');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="insight" className="snap-section relative py-20 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 space-y-4">
-          <span className="text-[#D4A857] font-bold tracking-widest text-sm uppercase">INSIGHT</span>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
+    <section id="insight" className="snap-section relative py-20 md:py-24 bg-white">
+      <div className="container mx-auto px-6 relative z-10">
+        
+        {/* Header Area */}
+        <div className="text-center mb-16 space-y-2">
+          
+          {/* [수정] 3D 이미지 제거 -> 플랫 배지로 교체 */}
+          <div className="flex justify-center">
+            <InsightBadge />
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-tight pb-2">
             혼자 고민하지 마세요
           </h2>
-          <p className="text-slate-500 max-w-2xl mx-auto font-light">
+          <p className="text-slate-700 max-w-2xl mx-auto font-light leading-relaxed text-lg">
             세무조사, 상속, 증여... 처음 겪는 일이라 막막하시죠.<br className="hidden md:block" />
-            국세청 25년 경력의 전문가가 대표님 편에서 끝까지 함께합니다.
+            <strong className="font-medium text-slate-800">25년 경력의 전문가</strong>가 대표님 편에서 끝까지 함께합니다.
           </p>
         </div>
-        <div className="grid md:grid-cols-4 gap-6">
+
+        {/* Cards Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {insights.map((card, idx) => (
             <Link 
               href="/insight" 
               key={idx} 
-              className="bg-slate-50 p-8 rounded-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 hover:border-[#D4A857] group cursor-pointer"
+              className="group bg-slate-50 p-8 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 hover:border-[#D4A857] cursor-pointer text-left flex flex-col"
             >
-              <div className="text-slate-400 group-hover:text-[#D4A857] transition-colors mb-6">{card.icon}</div>
-              <div className="text-xs text-[#D4A857] font-bold mb-2 tracking-wide uppercase">{card.title}</div>
-              <h3 className="font-serif text-xl font-bold text-slate-900 mb-4">{card.sub}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed font-light line-clamp-3">{card.desc}</p>
+              <div className="mb-6 p-3 bg-white w-fit rounded-lg shadow-sm group-hover:bg-[#D4A857]/10 transition-colors">
+                <div className="text-slate-400 group-hover:text-[#D4A857] transition-colors">
+                  {card.icon}
+                </div>
+              </div>
+              
+              <div className="text-xs text-[#D4A857] font-bold mb-3 tracking-wide uppercase">
+                {card.title}
+              </div>
+              
+              <h3 className="font-serif text-xl font-bold text-slate-900 mb-4 group-hover:text-[#D4A857] transition-colors">
+                {card.sub}
+              </h3>
+              
+              <p className="text-sm text-slate-700 leading-relaxed font-medium line-clamp-3">
+                {card.desc}
+              </p>
             </Link>
           ))}
         </div>
+
+        {/* 하단 CTA 버튼 */}
+        <div className="mt-16 text-center pb-8">
+          <Link 
+            href="/consult"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-[#D4A857] transition-all duration-300 group shadow-lg shadow-slate-200"
+          >
+            내 상황에 맞는 해결책 상담하기
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <p className="mt-4 text-sm text-slate-500">
+            초기 상담은 100% 비밀이 보장됩니다.
+          </p>
+        </div>
+
       </div>
       
-      {/* Scroll Indicator - 밝은 배경용 */}
+      {/* Scroll Indicator: 글자 없이 화살표만 깔끔하게 */}
       <div className="absolute left-1/2 bottom-6 -translate-x-1/2 z-30">
-        <ScrollIndicator
-          targetId="success-cases"
-          direction="down"
-          className="text-slate-400"
-        />
+        <button 
+          onClick={handleScrollDown}
+          className="p-2 opacity-40 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+          aria-label="Next Section"
+        >
+          <ChevronDown className="w-8 h-8 text-slate-400 animate-bounce" />
+        </button>
       </div>
     </section>
   );
