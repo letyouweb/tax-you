@@ -1,21 +1,58 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
-import { Shield, TrendingUp, Users, Lock, CheckCircle2, ArrowRight, Phone, HelpCircle, FileText } from 'lucide-react';
+import { Shield, TrendingUp, Users, Lock, CheckCircle2, ArrowRight, Phone, HelpCircle, FileText, ChevronDown } from 'lucide-react';
 
 export default function Insight() {
+  // FAQ 아코디언 상태 관리 (null이면 모두 닫힘, 숫자면 해당 인덱스 열림)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  // FAQ 데이터 (JSX 답변 포함을 위해 배열로 정리)
+  const faqList = [
+    {
+      q: "세무조사 통지서를 받으면 가장 먼저 무엇을 해야 하나요?",
+      a: (
+        <div className="space-y-3">
+          <p>당황스러우시겠지만, 이때일수록 <strong>'첫 대응'</strong>이 가장 중요합니다. 혼자 세무서에 바로 연락하시기보다는, 다음 3가지를 먼저 하셔야 합니다.</p>
+          <ul className="list-decimal list-inside space-y-1 text-sm bg-white p-4 rounded-lg border border-slate-200 text-slate-700">
+            <li><span className="font-semibold">통지서 확인:</span> 조사 기간과 사유를 정확히 파악하세요.</li>
+            <li><span className="font-semibold">현황 정리:</span> 현재 사업 및 자산 상황을 객관적으로 정리하세요.</li>
+            <li><span className="font-semibold">전문가 상담:</span> 즉시 세무 대리인과 상의하여 초기 진술 전략을 세우세요.</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      q: "세무조사와 단순 세무 확인(사후검증)은 무엇이 다른가요?",
+      a: "세무조사는 장부와 증빙을 포괄적으로 검증하는 강도 높은 절차인 반면, 사후검증은 특정 항목에 대한 소명을 요구하는 절차입니다. 하지만 사후검증 대응이 미흡하거나 혐의가 발견되면 정기 세무조사로 전환될 수 있어 주의가 필요합니다."
+    },
+    {
+      q: "상속세와 증여세 중 무엇이 더 유리한가요?",
+      a: "자산 규모, 종류, 가족 구성원, 향후 가치 상승 여부에 따라 다릅니다. 통상적으로 자산 가치가 상승할 것으로 예상되면 사전 증여가 유리하지만, 구체적인 시뮬레이션 없이는 판단하기 어렵습니다. 10년 단위 플랜이 필수적입니다."
+    },
+    {
+      q: "이미 세금이 고지된 상태에서도 불복 청구가 가능한가요?",
+      a: "네, 가능합니다. 납세 고지서를 받은 날로부터 90일 이내에 이의신청이나 심판청구를 제기할 수 있습니다. 단, 이 기한(90일)을 놓치면 억울하더라도 다툴 기회가 사라지므로 서둘러야 합니다."
+    }
+  ];
+
   return (
     <div className="bg-white min-h-screen">
       <PageHeader 
         title="인사이트" 
-        subTitle="국세청 25년 경험이 제시하는 구체적인 세무 전략" 
+        subTitle="국세청 25년 경력이 제시하는 구체적인 세무 전략" 
       />
       
       <div className="container mx-auto px-6 py-16 space-y-24">
         
         {/* ----------------------------------------------------------------------
-            1. 주요 인사이트 4블록 (기존 구조 유지 + 텍스트 정돈)
+            1. 주요 인사이트 4블록
         ----------------------------------------------------------------------- */}
 
         {/* 1-1. 세무조사 섹션 */}
@@ -40,7 +77,7 @@ export default function Insight() {
                   막막하고 두려운 마음, 충분히 이해합니다.
                 </p>
                 <p>
-                  하지만 <strong className="text-slate-900 border-b-2 border-[#D4A857]/30">첫 대응이 결과의 90%를 좌우합니다.</strong><br/>
+                  <strong className="text-slate-900 bg-[#FFF9EA] px-1">하지만 첫 대응이 결과의 90%를 좌우합니다.</strong><br/>
                   조사관이 어떤 의도로 자료를 요구하는지, 무엇을 쟁점으로 삼고 있는지 파악하지 못하면 불필요한 추징을 피할 수 없습니다.
                 </p>
                 <p>
@@ -50,12 +87,12 @@ export default function Insight() {
               </div>
             </div>
             
-            <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100 shadow-sm">
+            <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100 shadow-sm relative">
               <h3 className="font-bold text-slate-900 text-lg mb-6 flex items-center gap-2">
                 <span className="w-1.5 h-6 bg-[#D4A857] rounded-full"></span>
                 국세청 출신이 제공하는 3가지 핵심 솔루션
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-6 mb-8">
                 {[
                   { title: "조사 의도 사전 파악", desc: "국세청 출신만이 읽을 수 있는 조사 방향과 쟁점을 미리 진단합니다." },
                   { title: "실시간 방어 전략 수립", desc: "조사 착수부터 종결까지 대표 세무사가 직접 방어하고 대응합니다." },
@@ -70,6 +107,11 @@ export default function Insight() {
                   </div>
                 ))}
               </div>
+              
+              <Link href="/consult" className="inline-flex items-center gap-2 text-sm text-[#D4A857] font-bold border border-[#D4A857]/40 px-4 py-2 rounded-full hover:bg-[#D4A857] hover:text-white transition-all group bg-white">
+                세무조사 통지서 받으셨다면, 1:1 긴급 상담
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
+              </Link>
             </div>
           </div>
         </section>
@@ -98,7 +140,7 @@ export default function Insight() {
                   이미 계약이 끝난 후에는 할 수 있는 게 없습니다.
                 </p>
                 <p>
-                  양도소득세는 보유 기간, 거주 여부, 주택 수에 따라 <strong className="text-slate-900 border-b-2 border-[#D4A857]/30">수천만 원에서 수억 원까지 차이</strong>가 납니다. 
+                  양도소득세는 보유 기간, 거주 여부, 주택 수에 따라 <strong className="text-slate-900 bg-[#FFF9EA] px-1">수천만 원에서 수억 원까지 차이</strong>가 납니다. 
                   비과세 요건을 하루 차이로 놓치거나 감면 조항을 몰라서 손해 보는 분들이 많습니다.
                 </p>
                 <p>
@@ -113,7 +155,7 @@ export default function Insight() {
                 <span className="w-1.5 h-6 bg-[#D4A857] rounded-full"></span>
                 양도 전 반드시 확인해야 할 3가지
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-6 mb-8">
                 {[
                   { title: "비과세·감면 요건 정밀 검토", desc: "1세대 1주택 비과세, 장기보유특별공제 등 요건을 꼼꼼히 확인합니다." },
                   { title: "최적 양도 시점 설계", desc: "보유 기간, 취득 시기 등을 고려해 세금을 최소화하는 타이밍을 찾습니다." },
@@ -128,6 +170,11 @@ export default function Insight() {
                   </div>
                 ))}
               </div>
+
+              <Link href="/consult" className="inline-flex items-center gap-2 text-sm text-[#D4A857] font-bold border border-[#D4A857]/40 px-4 py-2 rounded-full hover:bg-[#D4A857] hover:text-white transition-all group bg-white">
+                양도 계약 전, 사전 세금 점검 받기
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
+              </Link>
             </div>
           </div>
         </section>
@@ -156,7 +203,7 @@ export default function Insight() {
                   상속·증여는 단순히 세금을 줄이는 문제가 아닙니다.
                 </p>
                 <p>
-                  <strong className="text-slate-900 border-b-2 border-[#D4A857]/30">'가족 간 분쟁 예방'과 '장기 절세 플랜'</strong>,<br/>
+                  <strong className="text-slate-900 bg-[#FFF9EA] px-1">'가족 간 분쟁 예방'과 '장기 절세 플랜'</strong>, 
                   이 두 가지를 동시에 설계해야 합니다.
                 </p>
                 <p>
@@ -171,7 +218,7 @@ export default function Insight() {
                 <span className="w-1.5 h-6 bg-[#D4A857] rounded-full"></span>
                 분쟁 없는 자산 이전을 위한 3가지 원칙
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-6 mb-8">
                 {[
                   { title: "가족 구성원별 맞춤 설계", desc: "각 상속인의 상황과 관계를 고려한 공정한 분배 플랜을 수립합니다." },
                   { title: "10년 단위 장기 절세 플랜", desc: "증여세 면제 한도를 활용한 단계별 사전 증여로 세 부담을 분산합니다." },
@@ -186,6 +233,11 @@ export default function Insight() {
                   </div>
                 ))}
               </div>
+
+              <Link href="/consult" className="inline-flex items-center gap-2 text-sm text-[#D4A857] font-bold border border-[#D4A857]/40 px-4 py-2 rounded-full hover:bg-[#D4A857] hover:text-white transition-all group bg-white">
+                가족 상황에 맞는 상속·증여 플랜 문의
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
+              </Link>
             </div>
           </div>
         </section>
@@ -214,7 +266,7 @@ export default function Insight() {
                   과세 관청의 처분이 항상 옳은 것은 아닙니다.
                 </p>
                 <p>
-                  사실 관계 오인이나 법령 해석의 차이로 <strong className="text-slate-900 border-b-2 border-[#D4A857]/30">억울하게 부과되는 세금</strong>이 생각보다 많습니다. 
+                  사실 관계 오인이나 법령 해석의 차이로 <strong className="text-slate-900 bg-[#FFF9EA] px-1">억울하게 부과되는 세금</strong>이 생각보다 많습니다. 
                   대부분 "국가가 하는 일이니까..."라며 포기하지만, 싸우면 되찾을 수 있습니다.
                 </p>
                 <p>
@@ -229,7 +281,7 @@ export default function Insight() {
                 <span className="w-1.5 h-6 bg-[#D4A857] rounded-full"></span>
                 조세불복 승소를 위한 3가지 전략
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-6 mb-8">
                 {[
                   { title: "과세 논리의 허점 분석", desc: "국세청 출신의 시각으로 처분의 위법·부당성을 정밀 분석합니다." },
                   { title: "법리적 반박 논거 구축", desc: "판례와 유권해석을 활용한 치밀한 논리로 납세자를 대변합니다." },
@@ -244,16 +296,27 @@ export default function Insight() {
                   </div>
                 ))}
               </div>
+
+              <Link href="/consult" className="inline-flex items-center gap-2 text-sm text-[#D4A857] font-bold border border-[#D4A857]/40 px-4 py-2 rounded-full hover:bg-[#D4A857] hover:text-white transition-all group bg-white">
+                부당 과세인지 검토 요청하기
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
+              </Link>
             </div>
           </div>
         </section>
       </div>
 
       {/* ----------------------------------------------------------------------
-          [NEW] 2. 대표 해결 사례 (Success Cases) - 4단 구조 카드
+          2. 대표 해결 사례 (Success Cases)
       ----------------------------------------------------------------------- */}
       <section className="bg-slate-50 py-20 border-t border-slate-200">
         <div className="container mx-auto px-6">
+          
+          <p className="text-sm md:text-base text-slate-500 mb-6 text-center tracking-wide">
+             위 인사이트들이 실제 의뢰인의 세금 문제를 어떻게 바꾸었는지,<br className="md:hidden"/>
+             <span className="font-bold text-slate-700"> 실제 사례로 보여드립니다.</span>
+          </p>
+
           <div className="text-center mb-16">
             <span className="text-[#D4A857] font-bold tracking-widest text-xs uppercase mb-3 block">SUCCESS CASES</span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
@@ -358,7 +421,7 @@ export default function Insight() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          [NEW] 3. 자주 묻는 질문 (FAQ)
+          [UPDATED] 3. 자주 묻는 질문 (FAQ) - 아코디언 적용
       ----------------------------------------------------------------------- */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
@@ -366,20 +429,44 @@ export default function Insight() {
             자주 묻는 질문
           </h2>
           <div className="space-y-4">
-            {[
-              { q: "세무조사 통지서를 받으면 가장 먼저 무엇을 해야 하나요?", a: "절대 당황하지 마시고, 세무서에 자료를 제출하거나 답변하기 전에 즉시 세무 전문가와 상의하셔야 합니다. 초기 진술이나 제출된 자료는 번복하기 어려우므로 첫 단추가 가장 중요합니다." },
-              { q: "세무조사와 단순 세무 확인(사후검증)은 무엇이 다른가요?", a: "세무조사는 장부와 증빙을 포괄적으로 검증하는 강도 높은 절차인 반면, 사후검증은 특정 항목에 대한 소명을 요구하는 절차입니다. 하지만 사후검증 대응이 미흡하면 정기 세무조사로 전환될 수 있어 주의가 필요합니다." },
-              { q: "상속세와 증여세 중 무엇이 더 유리한가요?", a: "자산 규모, 종류, 가족 구성원, 향후 가치 상승 여부에 따라 다릅니다. 통상적으로 자산 가치가 상승할 것으로 예상되면 사전 증여가 유리하지만, 구체적인 시뮬레이션 없이는 판단하기 어렵습니다. 10년 단위 플랜이 필수적입니다." },
-              { q: "이미 세금이 고지된 상태에서도 불복 청구가 가능한가요?", a: "네, 가능합니다. 납세 고지서를 받은 날로부터 90일 이내에 이의신청이나 심판청구를 제기할 수 있습니다. 기한을 놓치면 다툴 기회조차 사라지므로 서둘러야 합니다." },
-            ].map((item, idx) => (
-              <div key={idx} className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-[#D4A857]/50 transition-colors">
-                <h3 className="font-bold text-lg text-slate-900 mb-3 flex items-start gap-3">
-                  <HelpCircle className="text-[#D4A857] shrink-0 mt-1" size={20} />
-                  {item.q}
-                </h3>
-                <p className="text-slate-600 pl-8 leading-relaxed">
-                  {item.a}
-                </p>
+            {faqList.map((item, idx) => (
+              <div 
+                key={idx} 
+                className={`bg-slate-50 rounded-xl border transition-all duration-300 overflow-hidden ${
+                  openFaqIndex === idx ? 'border-[#D4A857] shadow-md bg-white' : 'border-slate-100 hover:border-[#D4A857]/50'
+                }`}
+              >
+                {/* 질문 헤더 (클릭 영역) */}
+                <button 
+                  onClick={() => toggleFaq(idx)}
+                  className="w-full flex items-start justify-between gap-4 p-6 text-left focus:outline-none"
+                >
+                  <h3 className={`font-bold text-lg flex items-start gap-3 transition-colors ${
+                    openFaqIndex === idx ? 'text-slate-900' : 'text-slate-700'
+                  }`}>
+                    <HelpCircle className={`shrink-0 mt-1 transition-colors ${
+                      openFaqIndex === idx ? 'text-[#D4A857]' : 'text-slate-400'
+                    }`} size={20} />
+                    {item.q}
+                  </h3>
+                  <ChevronDown 
+                    className={`shrink-0 text-slate-400 transition-transform duration-300 mt-1 ${
+                      openFaqIndex === idx ? 'rotate-180 text-[#D4A857]' : ''
+                    }`} 
+                    size={20} 
+                  />
+                </button>
+
+                {/* 답변 영역 (조건부 렌더링) */}
+                <div 
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    openFaqIndex === idx ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <div className="p-6 pt-0 pl-[3.25rem] text-slate-600 leading-relaxed border-t border-slate-100/50 mt-2">
+                    {item.a}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -387,14 +474,19 @@ export default function Insight() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          4. 하단 CTA 섹션 (기존 유지)
+          4. 하단 CTA 섹션
       ----------------------------------------------------------------------- */}
       <section className="py-20 bg-[#050B16] text-center">
         <div className="container mx-auto px-6 space-y-8">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white leading-tight">
-            지금 상황이 어떠신가요?<br />
-            <span className="text-[#D4A857]">국세청 출신 전문가가 직접 답해드립니다.</span>
-          </h2>
+          <h2 className="text-center text-2xl md:text-3xl font-serif font-bold text-white">
+  <span className="block">
+    지금 상황이 어떠신가요?
+  </span>
+  <span className="block mt-2 md:mt-3 text-[#F5E3B5]">
+    국세청 출신 전문가가 직접 답해드립니다.
+  </span>
+</h2>
+
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">
             "아직 확실하지 않은데 상담해도 되나요?"<br />
             물론입니다. 정확한 상황 파악이 먼저입니다. 부담 없이 연락 주세요.
