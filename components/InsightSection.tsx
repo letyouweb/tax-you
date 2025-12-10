@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { AlertCircle, TrendingUp, Users, Lock, ChevronRight, ChevronDown } from 'lucide-react';
+// [수정] 아이콘 변경 (AlertTriangle, Scale 추가 / AlertCircle, Lock 제거)
+import { AlertTriangle, TrendingUp, Users, Scale, ChevronRight, ChevronDown } from 'lucide-react';
 
 // [배지] 플랫 스타일 유지
 function InsightBadge() {
@@ -23,27 +24,29 @@ function InsightBadge() {
 }
 
 export default function InsightSection() {
+  // [수정] 아이콘 교체 및 스타일링 통일
+  // size={28} 정도로 약간 줄여서 세련된 느낌을 줍니다.
   const insights = [
     { 
-      icon: <AlertCircle size={32} />, 
+      icon: <AlertTriangle size={28} />, 
       title: "세무조사", 
       sub: "통지서를 받고 막막하신가요?", 
       desc: "국세청 조사과 25년, 그들의 방식을 아는 전문가가 첫 대응부터 종결까지 직접 방어합니다." 
     },
     { 
-      icon: <TrendingUp size={32} />, 
+      icon: <TrendingUp size={28} />, 
       title: "양도소득세", 
       sub: "팔고 나서 후회하고 계신가요?", 
       desc: "매도 '전' 상담 한 번이 실수령액 수천만 원을 바꿉니다. 최적의 매도 시점을 설계해 드립니다." 
     },
     { 
-      icon: <Users size={32} />, 
+      icon: <Users size={28} />, 
       title: "상속·증여", 
       sub: "가족끼리 불편해질까 걱정되시나요?", 
       desc: "분쟁 없는 자산 이전과 10년 단위 장기 절세 플랜, 두 가지를 동시에 설계해 드립니다." 
     },
     { 
-      icon: <Lock size={32} />, 
+      icon: <Scale size={28} />, 
       title: "조세불복", 
       sub: "이 세금, 진짜 내야 하는 건가요?", 
       desc: "억울하게 낸 세금, 국세청 출신이 법대로 끝까지 싸워 되찾아 드립니다." 
@@ -58,13 +61,10 @@ export default function InsightSection() {
   };
 
   return (
-    // [수정 1] min-h-screen + justify-center : 화면 꽉 채우고 수직 중앙 정렬
-    // py-24 -> py-12 : 위아래 불필요한 여백 대폭 삭제
     <section id="insight" className="snap-section relative min-h-screen flex flex-col justify-center bg-white py-12 md:py-0">
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Header Area */}
-        {/* [수정 2] mb-16 -> mb-10 : 헤더와 카드 사이 간격 축소 */}
         <div className="text-center mb-10 md:mb-12 space-y-2">
           
           <div className="flex justify-center">
@@ -88,8 +88,11 @@ export default function InsightSection() {
               key={idx} 
               className="group bg-slate-50 p-6 md:p-8 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 hover:border-[#D4A857] cursor-pointer text-left flex flex-col"
             >
-              <div className="mb-4 md:mb-6 p-3 bg-white w-fit rounded-lg shadow-sm group-hover:bg-[#D4A857]/10 transition-colors">
-                <div className="text-slate-400 group-hover:text-[#D4A857] transition-colors">
+              {/* [수정] 아이콘 박스 스타일 변경 */}
+              {/* bg-[#D4A857]/10 : 연한 골드 배경 */}
+              {/* text-[#D4A857] : 진한 골드 아이콘 색상 */}
+              <div className="mb-4 md:mb-6 w-14 h-14 flex items-center justify-center rounded-xl bg-[#D4A857]/10 transition-colors">
+                <div className="text-[#D4A857]">
                   {card.icon}
                 </div>
               </div>
@@ -110,7 +113,6 @@ export default function InsightSection() {
         </div>
 
         {/* 하단 CTA 버튼 */}
-        {/* [수정 3] mt-16 -> mt-10 : 카드와 버튼 사이 간격 축소 */}
         <div className="mt-10 md:mt-12 text-center pb-4">
           <Link 
             href="/consult"
@@ -126,7 +128,7 @@ export default function InsightSection() {
 
       </div>
       
-      {/* [수정 4] 스크롤 화살표 고정 (bottom-6 ~ bottom-10) */}
+      {/* 스크롤 화살표 */}
       <div className="absolute left-1/2 bottom-6 md:bottom-10 -translate-x-1/2 z-30">
         <button 
           onClick={handleScrollDown}
