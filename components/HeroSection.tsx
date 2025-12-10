@@ -8,21 +8,22 @@ import HeroButtons from './HeroButtons';
 // [추가] 요청하신 배지 컴포넌트
 function HeroBadge() {
   return (
-    <div className="inline-flex w-fit items-center gap-3 bg-[#D4A857]/10 border border-[#D4A857]/40 px-4 py-2 rounded-full mb-6">
+    <div className="inline-flex w-fit items-center gap-2 bg-[#D4A857]/10 border border-[#D4A857]/40 px-3.5 py-1.5 rounded-full mb-7 md:-mt-10 transition-all duration-300">
       <Image
         src="/images/medal-badge-icon.png"
         alt="국세청 근무 25년 · 국세청장 표창 수상 세무사"
-        width={32}
-        height={32}
-        className="w-7 h-7 md:w-8 md:h-8 object-contain drop-shadow-sm"
+        width={28}
+        height={28}
+        className="w-6 h-6 md:w-7 md:h-7 object-contain drop-shadow-sm"
         priority
       />
-      <span className="text-[11px] md:text-sm font-medium text-[#D4A857] tracking-tight">
+      <span className="text-[11px] md:text-[13px] font-medium text-[#D4A857] tracking-tight">
         국세청 근무 25년 · 국세청장 표창 수상 세무사
       </span>
     </div>
   );
 }
+
 
 export default function HeroSection() {
   const bgColor = '#050B16';

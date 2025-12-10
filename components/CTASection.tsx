@@ -11,7 +11,7 @@ export default function CTASection() {
       {/* 배경 패턴 */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
 
-      {/* [상단] 상담 유도 영역 */}
+      {/* [상단] 상담 유도 영역 (기존 유지) */}
       <div className="flex-1 flex flex-col justify-center items-center text-center px-6 relative z-10 pt-20">
         
         {/* 텍스트 그룹 */}
@@ -56,21 +56,34 @@ export default function CTASection() {
         />
       </div>
 
-      {/* [하단] Footer 영역 */}
-      <div className="relative z-10 w-full py-10 border-t border-white/10 bg-[#050B16]/90 backdrop-blur-sm text-center">
+      {/* [하단] Footer 영역 (Footer.tsx 디자인 적용 완료) */}
+      <div className="relative z-10 w-full py-10 border-t border-white/5 bg-[#050B16] text-center">
         <div className="container mx-auto px-6">
-          <div className="space-y-3 text-sm md:text-base font-light tracking-wide text-slate-500">
+          
+          {/* 로고 영역 (Footer와 통일감을 위해 추가) */}
+          <div className="mb-6">
+            <Link href="/" className="text-white font-serif text-lg tracking-[0.2em] font-bold hover:text-[#D4A857] transition-colors">
+              유동수 세무회계
+            </Link>
+          </div>
+
+          {/* 정보 텍스트 */}
+          <div className="space-y-3 text-sm md:text-base font-light tracking-wide leading-relaxed text-slate-400/80">
             <p>서울 강남구 언주로130길 23 평해빌딩 201호</p>
-            <p>대표세무사: 유동수 <span className="mx-2 opacity-30">|</span> 사업자등록번호: 714-17-00577</p>
+            <p>
+              대표세무사: 유동수 <span className="mx-2 opacity-30">|</span> 사업자등록번호: 714-17-00577
+            </p>
             <p className="mt-2">
-              Tel: <a href="tel:025180130" className="text-slate-300 hover:text-[#D4A857]">02-518-0130</a>
+              Tel: <a href="tel:025180130" className="text-slate-300 hover:text-[#D4A857] transition-colors font-medium">02-518-0130</a>
               <span className="mx-3 opacity-30">|</span>
               Fax: 02-518-0137
               <span className="mx-3 opacity-30">|</span>
-              Email: rdscta@daum.net
+              Email: <a href="mailto:rdscta@daum.net" className="text-slate-300 hover:text-[#D4A857] transition-colors font-medium">rdscta@daum.net</a>
             </p>
           </div>
-          <p className="text-slate-600 text-[11px] mt-8">
+
+          {/* 카피라이트 */}
+          <p className="text-slate-600 text-[11px] mt-8 tracking-wider">
             Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
           </p>
         </div>
