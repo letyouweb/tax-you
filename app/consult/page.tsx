@@ -200,7 +200,7 @@ export default function ConsultPage({ searchParams }: ConsultPageProps) {
                 상담 전 체크 포인트
               </p>
               <ul className="text-sm text-slate-600 space-y-3">
-                {preset.bullets.map((item, i) => (
+                {preset.bullets.map((item: string, i) => (
                   <li key={i} className="flex items-start gap-2 pl-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-slate-300 mt-1.5 shrink-0"></span>
                     {item}
