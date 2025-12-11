@@ -60,7 +60,8 @@ export default function CTASection() {
       </div>
 
       {/* Scroll Indicator - 맨 위로 */}
-      <div className="absolute left-1/2 bottom-32 -translate-x-1/2 z-30">
+      {/* [수정됨] 위치 조정: 모바일에서는 bottom-10, PC에서는 bottom-32 */}
+      <div className="absolute left-1/2 bottom-10 md:bottom-32 -translate-x-1/2 z-30">
         <ScrollIndicator
           targetId="hero"
           direction="up"
@@ -103,7 +104,6 @@ export default function CTASection() {
             <p className="text-slate-500 text-[11px] tracking-wider mb-3">
               Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
             </p>
-            {/* [수정됨] LetYou만 흰색, 밑줄 제거 */}
             <a 
               href="https://letyou.kr" 
               target="_blank" 
