@@ -16,30 +16,31 @@ export function ScrollIndicator({
   const Icon = direction === 'down' ? ChevronDown : ChevronUp;
 
   const handleClick = (e: React.MouseEvent) => {
-    // 이벤트 전파 방지 및 기본 동작 방지 (중요)
     e.preventDefault();
     e.stopPropagation();
 
-    // 1. PC (Snap Container) 스크롤 제어
+    // 화면 너비 확인 (1024px 미만은 모바일로 간주)
+    const isMobile = window.innerWidth < 1024;
     const snapContainer = document.querySelector('.snap-container');
-    if (snapContainer) {
+
+    // [수정됨] PC 화면이고, 스냅 컨테이너가 존재할 때만 컨테이너 내부 스크롤
+    if (!isMobile && snapContainer) {
       if (targetId === 'hero' || direction === 'up') {
         snapContainer.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         const el = document.getElementById(targetId);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       }
-      return;
-    }
-
-    // 2. Mobile / General 스크롤 제어
-    // 'hero' 타겟이거나 'up' 방향이면 무조건 최상단으로 이동
-    if (targetId === 'hero' || direction === 'up') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const el = document.getElementById(targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } 
+    // [수정됨] 모바일이거나 컨테이너가 없으면 전체 윈도우 스크롤 (이 부분이 모바일 동작의 핵심)
+    else {
+      if (targetId === 'hero' || direction === 'up') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
   };
@@ -49,7 +50,7 @@ export function ScrollIndicator({
       type="button"
       onClick={handleClick}
       className={[
-        'inline-flex items-center justify-center p-4 z-50', // 터치 영역 확대 및 최상위 레이어 설정
+        'inline-flex items-center justify-center p-4 z-50', // 터치 영역 확보
         'transition-all duration-300',
         'opacity-50 hover:opacity-100 hover:scale-110',
         'cursor-pointer',
