@@ -6,7 +6,7 @@ import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import { 
   Gift, 
-  Calendar, 
+  Calendar, // [수정] 누락된 Calendar 추가됨
   FileText, 
   Phone, 
   ChevronDown, 
@@ -15,7 +15,6 @@ import {
   CheckCircle2, 
   AlertCircle, 
   Calculator,
-  Hourglass,
   PiggyBank,
   TrendingDown
 } from 'lucide-react';
@@ -43,9 +42,10 @@ function CollapsibleText({ children }: { children: React.ReactNode }) {
 export default function JeunyoPage() {
   return (
     <div className="bg-white min-h-screen">
+      {/* 헤더 카피 업그레이드: 전략과 타이밍 강조 */}
       <PageHeader 
         title="증여세" 
-        subTitle="가족을 위한 아름다운 나눔, 세금 부담 없이 현명하게 전해드립니다." 
+        subTitle='증여세는 "언제, 얼마나, 누구에게"가 핵심입니다. 10년 단위 공제를 활용해 자산을 가장 유리한 타이밍에 이전하세요.' 
       />
       
       {/* 1. 증여세 과세 자산 (Alta Style) */}
@@ -74,7 +74,7 @@ export default function JeunyoPage() {
         </div>
       </section>
 
-      {/* [NEW] 2. 사전 증여 체크리스트 (기준선 제시) */}
+      {/* 2. 사전 증여 체크리스트 (기준선 제시) */}
       <section className="py-16 md:py-24 bg-white border-y border-slate-100">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex items-center gap-3 mb-4">
@@ -117,9 +117,10 @@ export default function JeunyoPage() {
             </p>
           </div>
 
+          {/* 링크 타입 변경: gift-check, gift-plan */}
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/consult?type=inherit-plan"
+              href="/consult?type=gift-check"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#D4A857] text-sm md:text-base font-bold text-[#D4A857] hover:bg-[#D4A857] hover:text-white transition-all"
             >
               <Calculator size={18}/>
@@ -127,7 +128,7 @@ export default function JeunyoPage() {
             </Link>
 
             <Link
-              href="/consult?type=inherit-gift"
+              href="/consult?type=gift-plan"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D4A857] text-sm md:text-base font-bold text-white hover:bg-[#C19545] shadow-lg shadow-[#D4A857]/20 transition-all"
             >
               10년 증여 플랜 상담 <ArrowRight size={18}/>
@@ -243,7 +244,7 @@ export default function JeunyoPage() {
         </div>
       </section>
 
-      {/* [NEW] 5. 가치 상승분 절세 시뮬레이션 */}
+      {/* 5. 가치 상승분 절세 시뮬레이션 */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
           <p className="text-center text-[#D4A857] font-bold tracking-widest text-[11px] uppercase mb-3">Simulation</p>
@@ -280,7 +281,6 @@ export default function JeunyoPage() {
             </table>
           </div>
 
-          {/* 절감액 강조 문구 */}
           <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-200">
              <div className="flex items-center justify-center gap-2 text-slate-800 text-base md:text-lg">
                 <TrendingDown className="text-[#D4A857]" />
@@ -290,7 +290,7 @@ export default function JeunyoPage() {
 
           <div className="mt-6 flex justify-between items-start gap-4 text-xs md:text-sm text-slate-400 px-2">
             <p>* 위 금액은 단순 공제만 반영한 예시이며, 실제 세액은 상황에 따라 다를 수 있습니다.</p>
-            <Link href="/consult?type=inherit-plan" className="shrink-0 text-[#D4A857] font-bold hover:underline">
+            <Link href="/consult?type=gift-check" className="shrink-0 text-[#D4A857] font-bold hover:underline">
               내 증여세 계산해보기 →
             </Link>
           </div>
@@ -428,7 +428,7 @@ export default function JeunyoPage() {
             유동수 세무회계와 함께 시작하세요.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/consult?type=inherit-plan" className="px-8 py-4 bg-[#D4A857] text-white font-bold rounded-sm hover:bg-[#C19545] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#D4A857]/20">
+            <Link href="/consult?type=gift-plan" className="px-8 py-4 bg-[#D4A857] text-white font-bold rounded-sm hover:bg-[#C19545] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#D4A857]/20">
               증여세 전문 상담 예약 <ArrowRight size={18} />
             </Link>
             <a href="tel:02-518-0130" className="px-8 py-4 border border-slate-600 text-white font-bold rounded-sm hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
