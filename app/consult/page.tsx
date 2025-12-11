@@ -22,10 +22,10 @@ function normalizeType(raw?: string) {
   if (raw === 'yangdo' || raw === 'yangdo-check') return 'yangdo';
 
   // 상속 관련
-  if (raw === 'inherit-gift' || raw === 'inherit-plan') return 'inherit';
+  if (raw === 'inherit' || raw === 'inherit-gift' || raw === 'inherit-plan') return 'inherit';
 
   // 증여 관련
-  if (raw === 'gift-check' || raw === 'gift-plan' || raw === 'gift-main') return 'gift';
+  if (raw === 'gift' || raw === 'gift-check' || raw === 'gift-plan' || raw === 'gift-main') return 'gift';
   
   // 조세불복 관련
   if (raw === 'appeal' || raw === 'refund' || raw === 'appeal-check') return 'appeal';
@@ -173,77 +173,11 @@ export default function ConsultPage({ searchParams }: ConsultPageProps) {
         {/* 본문 */}
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
           
-          {/* 왼쪽 설명 */}
-          <section className="bg-slate-50 border border-slate-200 rounded-2xl p-8 md:p-10 sticky top-10">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-10 h-1 bg-[#D4A857]"></span>
-              <h2 className="text-sm font-bold tracking-[0.2em] text-[#D4A857] uppercase">
-                Selected Service
-              </h2>
-            </div>
-            
-            <p className="text-3xl font-serif font-bold text-slate-900 mb-6 leading-tight">
-              {preset.label}
-            </p>
-            <p className="text-slate-600 mb-8 text-lg leading-relaxed">
-              {preset.description}
-            </p>
-
-            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm mb-8">
-              <p className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-[#D4A857]"/> 
-                상담 전 체크 포인트
-              </p>
-              <ul className="text-sm text-slate-600 space-y-3">
-                {preset.bullets.map((item: string, i: number) => (
-                  <li key={i} className="flex items-start gap-2 pl-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-300 mt-1.5 shrink-0"></span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-4 pt-6 border-t border-slate-200">
-               <div className="flex items-center gap-4">
-                 <div className="p-2.5 bg-[#D4A857]/10 text-[#D4A857] rounded-full">
-                   <Phone size={20} />
-                 </div>
-                 <div>
-                   <h4 className="text-xs text-slate-500 font-bold mb-1">전화 상담</h4>
-                   {/* [수정됨] 전화 걸기 링크 */}
-                   <a 
-                     href="tel:025180130" 
-                     className="text-slate-900 font-bold text-lg hover:text-[#D4A857] transition-colors"
-                   >
-                     02-518-0130
-                   </a>
-                   <p className="text-xs text-slate-400 mt-1">평일 09:00 - 18:00</p>
-                 </div>
-               </div>
-               <div className="flex items-center gap-4">
-                 <div className="p-2.5 bg-[#D4A857]/10 text-[#D4A857] rounded-full">
-                   <MapPin size={20} />
-                 </div>
-                 <div>
-                   <h4 className="text-xs text-slate-500 font-bold mb-1">오시는 길</h4>
-                   {/* [수정됨] 카카오맵 링크 */}
-                   <a 
-                     href="https://map.kakao.com/?q=서울 강남구 언주로130길 23" 
-                     target="_blank" 
-                     rel="noopener noreferrer"
-                     className="text-slate-900 text-sm hover:text-[#D4A857] hover:underline transition-all block leading-relaxed"
-                   >
-                     서울 강남구 언주로130길 23 평해빌딩 201호
-                   </a>
-                   <p className="text-xs text-slate-400 mt-1">학동역 7번 출구 도보 5분</p>
-                 </div>
-               </div>
-            </div>
-          </section>
-
-          {/* 오른쪽 폼 */}
-          <section className="bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 p-8 md:p-10">
+          {/* [수정됨] 오른쪽 : 상담 폼 카드 
+              - order-1: 모바일에서 가장 먼저 보임
+              - lg:order-2: PC에서는 오른쪽에 위치
+          */}
+          <section className="bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 p-8 md:p-10 order-1 lg:order-2">
             <div className="text-center mb-10">
                <h2 className="text-2xl font-serif font-bold text-slate-900 mb-2">
                  1:1 상담 신청
@@ -333,6 +267,78 @@ export default function ConsultPage({ searchParams }: ConsultPageProps) {
               </button>
             </form>
           </section>
+
+          {/* [수정됨] 왼쪽 : 선택된 서비스 설명 
+              - order-2: 모바일에서 폼 아래에 위치
+              - lg:order-1: PC에서는 왼쪽에 위치
+              - lg:sticky: PC에서만 스티키 적용
+          */}
+          <section className="bg-slate-50 border border-slate-200 rounded-2xl p-8 md:p-10 order-2 lg:order-1 lg:sticky lg:top-10">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-10 h-1 bg-[#D4A857]"></span>
+              <h2 className="text-sm font-bold tracking-[0.2em] text-[#D4A857] uppercase">
+                Selected Service
+              </h2>
+            </div>
+            
+            <p className="text-3xl font-serif font-bold text-slate-900 mb-6 leading-tight">
+              {preset.label}
+            </p>
+            <p className="text-slate-600 mb-8 text-lg leading-relaxed">
+              {preset.description}
+            </p>
+
+            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm mb-8">
+              <p className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-[#D4A857]"/> 
+                상담 전 체크 포인트
+              </p>
+              <ul className="text-sm text-slate-600 space-y-3">
+                {preset.bullets.map((item: string, i: number) => (
+                  <li key={i} className="flex items-start gap-2 pl-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-300 mt-1.5 shrink-0"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-4 pt-6 border-t border-slate-200">
+               <div className="flex items-center gap-4">
+                 <div className="p-2.5 bg-[#D4A857]/10 text-[#D4A857] rounded-full">
+                   <Phone size={20} />
+                 </div>
+                 <div>
+                   <h4 className="text-xs text-slate-500 font-bold mb-1">전화 상담</h4>
+                   <a 
+                     href="tel:025180130" 
+                     className="text-slate-900 font-bold text-lg hover:text-[#D4A857] transition-colors"
+                   >
+                     02-518-0130
+                   </a>
+                   <p className="text-xs text-slate-400 mt-1">평일 09:00 - 18:00</p>
+                 </div>
+               </div>
+               <div className="flex items-center gap-4">
+                 <div className="p-2.5 bg-[#D4A857]/10 text-[#D4A857] rounded-full">
+                   <MapPin size={20} />
+                 </div>
+                 <div>
+                   <h4 className="text-xs text-slate-500 font-bold mb-1">오시는 길</h4>
+                   <a 
+                     href="https://map.kakao.com/?q=서울 강남구 언주로130길 23" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="text-slate-900 text-sm hover:text-[#D4A857] hover:underline transition-all block leading-relaxed"
+                   >
+                     서울 강남구 언주로130길 23 평해빌딩 201호
+                   </a>
+                   <p className="text-xs text-slate-400 mt-1">학동역 7번 출구 도보 5분</p>
+                 </div>
+               </div>
+            </div>
+          </section>
+
         </div>
       </main>
     </div>
