@@ -17,7 +17,8 @@ import {
   PieChart,
   CheckCircle2,
   AlertCircle,
-  Calculator
+  Calculator,
+  TrendingDown // 절세 아이콘 추가
 } from 'lucide-react';
 
 // [기능] 모바일용 더보기 아코디언 컴포넌트
@@ -48,7 +49,7 @@ export default function SangsokPage() {
         subTitle="평생을 일궈온 자산, 세금으로 잃지 않고 온전히 가족에게 전해드립니다." 
       />
       
-      {/* 1. 과세 대상 자산 (Alta Style) */}
+      {/* 1. 과세 대상 자산 */}
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-slate-50"></div>
         <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-5"></div>
@@ -74,19 +75,19 @@ export default function SangsokPage() {
         </div>
       </section>
 
-      {/* [NEW] 2. 상속세 체크리스트 섹션 */}
+      {/* [UPDATED] 2. 상속세 체크리스트 섹션 (기준선 제시) */}
       <section className="py-16 md:py-24 bg-white border-y border-slate-100">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex items-center gap-3 mb-4">
             <span className="p-2 bg-[#D4A857]/10 text-[#D4A857] rounded-lg"><CheckCircle2 size={24}/></span>
             <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900">
-              상속세 발생 가능성 자가진단
+              상속세 위험도 자가진단
             </h2>
           </div>
 
           <p className="text-slate-600 mb-10 leading-relaxed pl-1 text-lg">
-            상속세는 미리 준비하지 않으면 <span className="font-bold text-[#D4A857] bg-[#FFF9EA] px-1">자산의 최대 50%</span>가 세금으로 부과될 수 있습니다.<br className="hidden md:block" />
-            아래 항목 중 해당되는 것이 있다면, 지금 바로 전문가와 상의하셔야 합니다.
+            상속세는 미리 준비하지 않으면 <span className="font-bold text-[#D4A857] bg-[#FFF9EA] px-1">자산의 최대 50%</span>가 세금으로 사라질 수 있습니다.<br className="hidden md:block" />
+            아래 항목 중 <span className="font-bold text-[#D4A857] border-b-2 border-[#D4A857]/30">2개 이상</span> 해당된다면, 지금은 전문가와 상속 설계를 시작해야 할 시점입니다.
           </p>
 
           <div className="grid md:grid-cols-2 gap-4 mb-8">
@@ -136,7 +137,7 @@ export default function SangsokPage() {
         </div>
       </section>
 
-      {/* 3. 과세표준 산정 방법 (Alta Style) */}
+      {/* [UPDATED] 3. 과세표준 산정 방법 (요약 정보 추가) */}
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="container mx-auto px-6">
           <p className="text-center text-[#D4A857] font-bold tracking-widest text-[11px] uppercase mb-3">Calculation Process</p>
@@ -144,6 +145,18 @@ export default function SangsokPage() {
           <p className="text-slate-500 text-center mb-12">상속세는 공제 항목을 얼마나 잘 활용하느냐가 핵심입니다.</p>
           
           <div className="max-w-4xl mx-auto">
+            {/* 요약 정보 Bullets (Perplexity 제안 반영) */}
+            <div className="flex flex-wrap justify-center gap-4 mb-10">
+               <span className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-xs md:text-sm text-slate-600 border border-slate-200 font-medium">
+                 <CheckCircle2 size={16} className="text-[#D4A857]" />
+                 과세표준에 따라 10% ~ 50% 누진세율 적용
+               </span>
+               <span className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-xs md:text-sm text-slate-600 border border-slate-200 font-medium">
+                 <CheckCircle2 size={16} className="text-[#D4A857]" />
+                 신고기한: 상속개시일로부터 6개월 이내 (국내 거주자)
+               </span>
+            </div>
+
             {/* 계산 플로우 */}
             <div className="grid md:grid-cols-5 gap-4 items-center mb-10">
               <div className="bg-white border border-slate-200 p-5 rounded-xl text-center shadow-sm relative group hover:border-[#D4A857] transition-colors">
@@ -187,7 +200,7 @@ export default function SangsokPage() {
         </div>
       </section>
 
-      {/* 4. 전문가 필요 이유 (사진 적용: yoodongsu-sangsok.webp) */}
+      {/* 4. 전문가 필요 이유 */}
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[#050B16]"></div>
         <div className="absolute inset-0 bg-[url('/images/pattern-dark.png')] opacity-10"></div>
@@ -198,16 +211,13 @@ export default function SangsokPage() {
             <div className="relative order-2 md:order-1">
               <div className="aspect-[4/5] md:aspect-[3/4] rounded-lg overflow-hidden shadow-2xl border border-white/10">
                 <Image 
-                  src="/images/yoodongsu-sangsok.webp" 
+                  src="/images/yoodongsu-sangsok.jpg" 
                   alt="상속세 전문 유동수 세무사"
                   width={800}
                   height={1000}
                   className="w-full h-full object-cover object-top"
-                  quality={100}
-                  priority
                 />
               </div>
-              {/* 플로팅 배지 */}
               <div className="absolute -bottom-6 -right-4 md:bottom-8 md:-right-8 bg-[#D4A857] text-white p-5 md:p-6 rounded-xl shadow-xl border border-white/20 backdrop-blur-sm">
                 <div className="text-3xl md:text-4xl font-bold font-serif mb-1">25<span className="text-lg font-sans font-normal ml-1">년</span></div>
                 <div className="text-xs md:text-sm text-white/90">국세청 조사국 경력</div>
@@ -254,7 +264,7 @@ export default function SangsokPage() {
         </div>
       </section>
 
-      {/* [NEW] 5. 절세 효과 시뮬레이션 표 */}
+      {/* [UPDATED] 5. 절세 효과 시뮬레이션 표 (절감액 명시) */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
           <p className="text-center text-[#D4A857] font-bold tracking-widest text-[11px] uppercase mb-3">Simulation</p>
@@ -266,7 +276,7 @@ export default function SangsokPage() {
             (배우자, 자녀 2명 가정)
           </p>
 
-          <div className="overflow-hidden rounded-xl bg-white border border-slate-200 shadow-lg">
+          <div className="overflow-hidden rounded-xl bg-white border border-slate-200 shadow-lg mb-6">
             <table className="min-w-full text-left text-sm md:text-base">
               <thead className="bg-slate-900 text-white">
                 <tr>
@@ -290,6 +300,14 @@ export default function SangsokPage() {
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          {/* [NEW] 절감액 강조 문구 */}
+          <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-200">
+             <div className="flex items-center justify-center gap-2 text-slate-800 text-base md:text-lg">
+                <TrendingDown className="text-[#D4A857]" />
+                사전 플랜 실행 시, 약 <span className="font-bold text-[#D4A857] underline decoration-2 decoration-[#D4A857]/30 underline-offset-4">3억 3,000만 원</span>의 절세 효과가 발생합니다.
+             </div>
           </div>
 
           <div className="mt-6 flex justify-between items-start gap-4 text-xs md:text-sm text-slate-400 px-2">
