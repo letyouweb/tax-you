@@ -10,7 +10,7 @@ const Footer = () => (
         </Link>
       </div>
 
-      {/* 정보 영역: 가독성을 위해 줄바꿈 및 간격 조정 */}
+      {/* 정보 영역 */}
       <div className="space-y-2 text-sm md:text-base font-light tracking-wide leading-relaxed text-slate-400/80">
         <p>서울 강남구 언주로130길 23 평해빌딩 201호</p>
         <p>
@@ -25,10 +25,21 @@ const Footer = () => (
         </p>
       </div>
 
-      {/* 카피라이트: 간격(margin-top)을 넓혀서 분리감 부여 */}
-      <p className="text-slate-600 text-[11px] mt-10 tracking-wider">
-        Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
-      </p>
+      {/* 카피라이트 & 제작자 크레딧 */}
+      <div className="mt-12">
+        <p className="text-slate-500 text-[11px] tracking-wider mb-3">
+          Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
+        </p>
+        {/* [수정됨] LetYou만 흰색, 밑줄 제거 */}
+        <a 
+          href="https://letyou.kr" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-block text-xs text-slate-500 hover:text-[#D4A857] transition-colors"
+        >
+          Website Design & Development by <span className="text-white font-medium">LetYou</span>
+        </a>
+      </div>
     </div>
   </footer>
 );

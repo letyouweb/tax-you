@@ -13,19 +13,18 @@ const Navbar = () => {
   // 현재 보고 있는 섹션 번호 (0부터 시작)
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   
-  // ✅ [수정 1] 화면 너비 상태 추가 (초기값은 false 또는 0)
+  // 화면 너비 상태
   const [isDesktop, setIsDesktop] = useState(false);
   
   const pathname = usePathname();
   const isMainPage = pathname === '/';
 
-  // ⭐️ [중요] 어두운 배경을 가진 섹션 번호 설정
+  // 어두운 배경을 가진 섹션 번호 설정
   // 0: 메인(Hero), 2: 서비스 소개, 4: 오시는 길, 5: 하단 상담 문의
   const DARK_BG_SECTIONS = [0, 2, 4, 5]; 
 
   useEffect(() => {
     const handleScroll = () => {
-      // ✅ [수정 2] window.innerWidth 체크를 여기서 수행하여 state에 저장
       const currentWidth = window.innerWidth;
       setIsDesktop(currentWidth >= 1024);
 
@@ -43,7 +42,7 @@ const Navbar = () => {
 
     // 이벤트 리스너 등록
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll); // 화면 크기 변경 시 재계산
+    window.addEventListener('resize', handleScroll); 
     
     const snapContainer = document.querySelector('.snap-container');
     if (snapContainer) {
@@ -68,25 +67,44 @@ const Navbar = () => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
-  // 👉 현재 상태 계산
-  // ✅ [수정 3] window.innerWidth 대신 state 변수(isDesktop) 사용
+  // [추가됨] 로고 클릭 시 메인 페이지 상단(Hero)으로 이동하는 핸들러
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // 현재 메인 페이지에 있다면
+    if (pathname === '/') {
+      e.preventDefault(); // 페이지 새로고침 방지
+      
+      // 1. 스냅 컨테이너(PC 스크롤)가 있는 경우
+      const snapContainer = document.querySelector('.snap-container');
+      if (snapContainer) {
+        snapContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      } 
+      // 2. 일반 스크롤(모바일 등)이나 hero ID가 있는 경우
+      else {
+        const heroSection = document.getElementById('hero');
+        if (heroSection) {
+          heroSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+    }
+    // 다른 페이지라면 href="/"에 의해 자동으로 메인으로 이동
+  };
+
+  // 현재 상태 계산
   const isDarkSection = isMainPage && (
      (isDesktop && DARK_BG_SECTIONS.includes(currentSectionIndex)) || 
      (!isDesktop && currentSectionIndex === 0)
   );
 
-  // 텍스트 색상 결정 로직
   const shouldUseWhiteText = isDarkSection && !isMobileMenuOpen;
-
   const textColor = shouldUseWhiteText ? '#FFFFFF' : '#050B16';
   const menuTextColor = shouldUseWhiteText ? '#e2e8f0' : '#334155';
   
-  // 배경 클래스
   const navBackgroundClass = (isDarkSection && !isMobileMenuOpen)
     ? 'bg-transparent py-6 border-transparent' 
     : 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header';
 
-  // 햄버거 버튼 색상
   const hamburgerColor = isMobileMenuOpen ? '#050B16' : textColor;
 
   // 전문분야 하위 메뉴 데이터
@@ -110,7 +128,8 @@ const Navbar = () => {
         {/* 로고 */}
         <Link 
           href="/" 
-          className="font-serif text-xl md:text-2xl tracking-widest font-bold z-50 transition-colors duration-500 group"
+          onClick={handleLogoClick} // [추가됨] 클릭 핸들러 연결
+          className="font-serif text-xl md:text-2xl tracking-widest font-bold z-50 transition-colors duration-500 group cursor-pointer"
           style={{ color: textColor }}
         >
           유동수 세무회계
@@ -201,7 +220,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24 space-y-8">
-           <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
+           <Link href="/" onClick={(e) => { handleLogoClick(e); setIsMobileMenuOpen(false); }} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">대표 세무사</Link>
            <Link href="/insight" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">인사이트</Link>
            

@@ -5,13 +5,25 @@ import { Phone } from 'lucide-react';
 import { ScrollIndicator } from './ScrollIndicator';
 
 export default function CTASection() {
+  
+  // 로고 클릭 시 최상단(Hero)으로 스크롤 이동
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const snapContainer = document.querySelector('.snap-container');
+    if (snapContainer) {
+      snapContainer.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="cta" className="snap-start h-screen flex flex-col bg-[#050B16] relative overflow-hidden">
+    <section id="cta" className="snap-section h-screen flex flex-col bg-[#050B16] relative overflow-hidden">
       
       {/* 배경 패턴 */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
 
-      {/* [상단] 상담 유도 영역 (기존 유지) */}
+      {/* [상단] 상담 유도 영역 */}
       <div className="flex-1 flex flex-col justify-center items-center text-center px-6 relative z-10 pt-20">
         
         {/* 텍스트 그룹 */}
@@ -56,13 +68,17 @@ export default function CTASection() {
         />
       </div>
 
-      {/* [하단] Footer 영역 (Footer.tsx 디자인 적용 완료) */}
+      {/* [하단] Footer 영역 */}
       <div className="relative z-10 w-full py-10 border-t border-white/5 bg-[#050B16] text-center">
         <div className="container mx-auto px-6">
           
-          {/* 로고 영역 (Footer와 통일감을 위해 추가) */}
+          {/* 로고 영역 */}
           <div className="mb-6">
-            <Link href="/" className="text-white font-serif text-lg tracking-[0.2em] font-bold hover:text-[#D4A857] transition-colors">
+            <Link 
+              href="/" 
+              onClick={handleLogoClick}
+              className="text-white font-serif text-lg tracking-[0.2em] font-bold hover:text-[#D4A857] transition-colors cursor-pointer"
+            >
               유동수 세무회계
             </Link>
           </div>
@@ -82,10 +98,21 @@ export default function CTASection() {
             </p>
           </div>
 
-          {/* 카피라이트 */}
-          <p className="text-slate-600 text-[11px] mt-8 tracking-wider">
-            Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
-          </p>
+          {/* 카피라이트 & 제작자 크레딧 */}
+          <div className="mt-10">
+            <p className="text-slate-500 text-[11px] tracking-wider mb-3">
+              Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
+            </p>
+            {/* [수정됨] LetYou만 흰색, 밑줄 제거 */}
+            <a 
+              href="https://letyou.kr" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block text-xs text-slate-500 hover:text-[#D4A857] transition-colors"
+            >
+              Website Design & Development by <span className="text-white font-medium">LetYou</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
