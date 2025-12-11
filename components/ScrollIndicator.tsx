@@ -15,7 +15,11 @@ export function ScrollIndicator({
 }: ScrollIndicatorProps) {
   const Icon = direction === 'down' ? ChevronDown : ChevronUp;
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    // 이벤트 전파 방지 및 기본 동작 방지 (중요)
+    e.preventDefault();
+    e.stopPropagation();
+
     // 1. PC (Snap Container) 스크롤 제어
     const snapContainer = document.querySelector('.snap-container');
     if (snapContainer) {
@@ -29,11 +33,14 @@ export function ScrollIndicator({
     }
 
     // 2. Mobile / General 스크롤 제어
-    if (targetId === 'hero') {
+    // 'hero' 타겟이거나 'up' 방향이면 무조건 최상단으로 이동
+    if (targetId === 'hero' || direction === 'up') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       const el = document.getElementById(targetId);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 
@@ -42,7 +49,7 @@ export function ScrollIndicator({
       type="button"
       onClick={handleClick}
       className={[
-        'inline-flex items-center justify-center p-2',
+        'inline-flex items-center justify-center p-4 z-50', // 터치 영역 확대 및 최상위 레이어 설정
         'transition-all duration-300',
         'opacity-50 hover:opacity-100 hover:scale-110',
         'cursor-pointer',
@@ -50,7 +57,6 @@ export function ScrollIndicator({
       ].join(' ')}
       aria-label={direction === 'down' ? 'Scroll down' : 'Scroll up'}
     >
-      {/* 텍스트(SCROLL) 제거됨, 아이콘만 표시 */}
       <Icon className="w-8 h-8 animate-bounce" strokeWidth={1.5} />
     </button>
   );

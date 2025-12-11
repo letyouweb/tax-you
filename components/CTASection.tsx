@@ -60,7 +60,8 @@ export default function CTASection() {
       </div>
 
       {/* Scroll Indicator - 맨 위로 */}
-      <div className="absolute left-1/2 bottom-32 -translate-x-1/2 z-30">
+      {/* 위치: 모바일에서는 bottom-10, PC에서는 bottom-32 (정보 텍스트와 안 겹치게) */}
+      <div className="absolute left-1/2 bottom-10 md:bottom-32 -translate-x-1/2 z-30 pointer-events-auto">
         <ScrollIndicator
           targetId="hero"
           direction="up"
@@ -83,19 +84,34 @@ export default function CTASection() {
             </Link>
           </div>
 
-          {/* 정보 텍스트 */}
-          <div className="space-y-3 text-sm md:text-base font-light tracking-wide leading-relaxed text-slate-400/80">
-            <p>서울 강남구 언주로130길 23 평해빌딩 201호</p>
-            <p>
-              대표세무사: 유동수 <span className="mx-2 opacity-30">|</span> 사업자등록번호: 714-17-00577
-            </p>
-            <p className="mt-2">
-              Tel: <a href="tel:025180130" className="text-slate-300 hover:text-[#D4A857] transition-colors font-medium">02-518-0130</a>
-              <span className="mx-3 opacity-30">|</span>
-              Fax: 02-518-0137
-              <span className="mx-3 opacity-30">|</span>
-              Email: <a href="mailto:rdscta@daum.net" className="text-slate-300 hover:text-[#D4A857] transition-colors font-medium">rdscta@daum.net</a>
-            </p>
+          {/* [수정됨] 정보 텍스트: 모바일 줄바꿈 적용 */}
+          <div className="space-y-4 md:space-y-3 text-sm md:text-base font-light tracking-wide leading-relaxed text-slate-400/80">
+            {/* 주소 */}
+            <p className="block">서울 강남구 언주로130길 23 평해빌딩 201호</p>
+            
+            {/* 대표자 & 사업자번호 */}
+            <div className="flex flex-col md:block gap-1 md:gap-0">
+              <span>대표세무사: 유동수</span>
+              <span className="hidden md:inline mx-2 opacity-30">|</span>
+              <span className="block md:inline">사업자등록번호: 714-17-00577</span>
+            </div>
+
+            {/* 연락처 정보 (전화, 팩스, 이메일) - 모바일에서 줄바꿈 */}
+            <div className="flex flex-col md:block gap-2 md:gap-0 mt-4 md:mt-2">
+              <span className="block md:inline">
+                Tel: <a href="tel:025180130" className="text-slate-300 hover:text-[#D4A857] transition-colors font-medium">02-518-0130</a>
+              </span>
+              <span className="hidden md:inline mx-3 opacity-30">|</span>
+              
+              <span className="block md:inline">
+                Fax: 02-518-0137
+              </span>
+              <span className="hidden md:inline mx-3 opacity-30">|</span>
+              
+              <span className="block md:inline">
+                Email: <a href="mailto:rdscta@daum.net" className="text-slate-300 hover:text-[#D4A857] transition-colors font-medium">rdscta@daum.net</a>
+              </span>
+            </div>
           </div>
 
           {/* 카피라이트 & 제작자 크레딧 */}
@@ -103,7 +119,6 @@ export default function CTASection() {
             <p className="text-slate-500 text-[11px] tracking-wider mb-3">
               Copyright © 2025 YOO DONG SU TAX & ACCOUNTING. All rights reserved.
             </p>
-            {/* [수정됨] LetYou만 흰색, 밑줄 제거 */}
             <a 
               href="https://letyou.kr" 
               target="_blank" 
