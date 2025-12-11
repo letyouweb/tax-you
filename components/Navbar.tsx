@@ -10,17 +10,12 @@ const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   
-  // 현재 보고 있는 섹션 번호 (0부터 시작)
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  
-  // 화면 너비 상태
   const [isDesktop, setIsDesktop] = useState(false);
   
   const pathname = usePathname();
   const isMainPage = pathname === '/';
 
-  // 어두운 배경을 가진 섹션 번호 설정
-  // 0: 메인(Hero), 2: 서비스 소개, 4: 오시는 길, 5: 하단 상담 문의
   const DARK_BG_SECTIONS = [0, 2, 4, 5]; 
 
   useEffect(() => {
@@ -28,19 +23,16 @@ const Navbar = () => {
       const currentWidth = window.innerWidth;
       setIsDesktop(currentWidth >= 1024);
 
-      // 1. PC 화면: 스냅 컨테이너 기준
       const snapContainer = document.querySelector('.snap-container');
       
       if (snapContainer && isMainPage && currentWidth >= 1024) {
         const index = Math.round(snapContainer.scrollTop / window.innerHeight);
         setCurrentSectionIndex(index);
       } else {
-        // 2. 모바일/일반 화면
         setCurrentSectionIndex(window.scrollY < 50 ? 0 : 1);
       }
     };
 
-    // 이벤트 리스너 등록
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll); 
     
@@ -49,7 +41,6 @@ const Navbar = () => {
       snapContainer.addEventListener('scroll', handleScroll);
     }
 
-    // 초기 상태 확인
     handleScroll();
 
     return () => {
@@ -61,25 +52,18 @@ const Navbar = () => {
     };
   }, [pathname, isMainPage]);
 
-  // 모바일 메뉴 스크롤 방지
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
-  // [추가됨] 로고 클릭 시 메인 페이지 상단(Hero)으로 이동하는 핸들러
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // 현재 메인 페이지에 있다면
     if (pathname === '/') {
-      e.preventDefault(); // 페이지 새로고침 방지
-      
-      // 1. 스냅 컨테이너(PC 스크롤)가 있는 경우
+      e.preventDefault();
       const snapContainer = document.querySelector('.snap-container');
       if (snapContainer) {
         snapContainer.scrollTo({ top: 0, behavior: 'smooth' });
-      } 
-      // 2. 일반 스크롤(모바일 등)이나 hero ID가 있는 경우
-      else {
+      } else {
         const heroSection = document.getElementById('hero');
         if (heroSection) {
           heroSection.scrollIntoView({ behavior: 'smooth' });
@@ -88,10 +72,8 @@ const Navbar = () => {
         }
       }
     }
-    // 다른 페이지라면 href="/"에 의해 자동으로 메인으로 이동
   };
 
-  // 현재 상태 계산
   const isDarkSection = isMainPage && (
      (isDesktop && DARK_BG_SECTIONS.includes(currentSectionIndex)) || 
      (!isDesktop && currentSectionIndex === 0)
@@ -107,7 +89,6 @@ const Navbar = () => {
 
   const hamburgerColor = isMobileMenuOpen ? '#050B16' : textColor;
 
-  // 전문분야 하위 메뉴 데이터
   const servicesSubMenu = [
     { name: '양도소득세', path: '/services/yangdo' },
     { name: '상속세', path: '/services/sangsok' },
@@ -125,15 +106,19 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${navBackgroundClass}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* 로고 */}
+        
+        {/* [수정됨] 로고 텍스트 중앙 정렬 적용 */}
         <Link 
           href="/" 
-          onClick={handleLogoClick} // [추가됨] 클릭 핸들러 연결
-          className="font-serif text-xl md:text-2xl tracking-widest font-bold z-50 transition-colors duration-500 group cursor-pointer"
+          onClick={handleLogoClick}
+          className="flex flex-col items-center z-50 transition-colors duration-500 group cursor-pointer" 
           style={{ color: textColor }}
         >
-          유동수 세무회계
-          <span className="block text-[10px] md:text-xs font-sans font-light tracking-[0.3em] text-[#D4A857] mt-1">
+          <span className="font-serif text-xl md:text-2xl tracking-widest font-bold leading-none">
+            유동수 세무회계
+          </span>
+          {/* pl-1을 추가하여 시각적으로 완벽한 중앙 정렬 */}
+          <span className="block text-[10px] md:text-xs font-sans font-light tracking-[0.3em] text-[#D4A857] mt-1 leading-none pl-1">
             TAX & ACCOUNTING
           </span>
         </Link>
