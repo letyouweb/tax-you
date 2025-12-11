@@ -197,7 +197,7 @@ export default function YangdoPage() {
             <div className="relative order-2 md:order-1">
               <div className="aspect-[4/5] md:aspect-[3/4] rounded-lg overflow-hidden shadow-2xl border border-white/10">
                 <Image 
-                  src="/images/yoodongsu-yangdo.jpg" 
+                  src="/images/yoodongsu_yangdo.jpg" 
                   alt="유동수 대표 세무사"
                   width={800}
                   height={1000}
