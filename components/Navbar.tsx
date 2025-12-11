@@ -83,9 +83,16 @@ const Navbar = () => {
   const textColor = shouldUseWhiteText ? '#FFFFFF' : '#050B16';
   const menuTextColor = shouldUseWhiteText ? '#e2e8f0' : '#334155';
   
-  const navBackgroundClass = (isDarkSection && !isMobileMenuOpen)
-    ? 'bg-transparent py-6 border-transparent' 
-    : 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header';
+  // [수정됨] 모바일 메뉴가 열려있으면(isMobileMenuOpen) 무조건 완전 불투명 흰색(bg-white) 적용
+  // 닫혀있을 때만 스크롤 상태에 따라 투명/반투명 처리
+  let navBackgroundClass = '';
+  if (isMobileMenuOpen) {
+    navBackgroundClass = 'bg-white py-4 border-b border-slate-100'; // 메뉴 열림: 불투명
+  } else if (isDarkSection) {
+    navBackgroundClass = 'bg-transparent py-6 border-transparent';  // 다크 섹션: 투명
+  } else {
+    navBackgroundClass = 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header'; // 일반: 반투명
+  }
 
   const hamburgerColor = isMobileMenuOpen ? '#050B16' : textColor;
 
@@ -107,7 +114,6 @@ const Navbar = () => {
     <nav className={`fixed w-full z-50 transition-all duration-500 ${navBackgroundClass}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         
-        {/* [수정됨] 로고 텍스트 중앙 정렬 적용 */}
         <Link 
           href="/" 
           onClick={handleLogoClick}
@@ -117,7 +123,6 @@ const Navbar = () => {
           <span className="font-serif text-xl md:text-2xl tracking-widest font-bold leading-none">
             유동수 세무회계
           </span>
-          {/* pl-1을 추가하여 시각적으로 완벽한 중앙 정렬 */}
           <span className="block text-[10px] md:text-xs font-sans font-light tracking-[0.3em] text-[#D4A857] mt-1 leading-none pl-1">
             TAX & ACCOUNTING
           </span>
