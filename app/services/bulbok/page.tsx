@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import { 
-  Lock, 
   Scale, 
   Gavel, 
   FileCheck, 
@@ -46,7 +45,7 @@ export default function BulbokPage() {
         subTitle="억울한 세금, 국세청 출신 전문가가 끝까지 싸워 되찾아 드립니다." 
       />
       
-      {/* 1. 주요 서비스 (Alta Style) */}
+      {/* 1. 주요 서비스 (업데이트됨: 기한 명시 카드) */}
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-slate-50"></div>
         <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-5"></div>
@@ -56,24 +55,52 @@ export default function BulbokPage() {
           <p className="text-slate-500 text-center mb-12">납세자의 정당한 권리를 보호하기 위한 법적 절차입니다.</p>
           
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              { icon: FileCheck, title: "과세전적부심사", desc: "세무조사 결과 통지 후, 세금이 고지되기 전에 과세의 적법성을 미리 심사받는 제도입니다." },
-              { icon: Gavel, title: "이의신청 · 심판청구", desc: "위법하거나 부당한 처분을 받은 경우, 처분청이나 조세심판원에 불복을 제기하여 권리를 구제받습니다." },
-              { icon: Search, title: "경정청구 (환급)", desc: "과거 5년 내에 실수로 더 낸 세금이 있다면, 이를 바로잡아 환급받을 수 있도록 도와드립니다." }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
-                <div className="inline-flex p-4 bg-slate-50 rounded-full text-[#D4A857] mb-6 group-hover:bg-[#D4A857] group-hover:text-white transition-colors">
-                  <item.icon size={32} />
-                </div>
-                <h4 className="font-bold text-xl text-slate-900 mb-3">{item.title}</h4>
-                <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
+            {/* 1) 과세전적부심사 카드 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+              <div className="inline-flex p-4 bg-slate-50 rounded-full text-[#D4A857] mb-6 group-hover:bg-[#D4A857] group-hover:text-white transition-colors">
+                <FileCheck size={32} />
               </div>
-            ))}
+              <h3 className="font-bold text-slate-900 mb-3 text-lg">과세전적부심사</h3>
+              <p className="text-slate-600 text-sm leading-relaxed min-h-[40px]">
+                과세예고 통지 단계에서부터 세무서와의 분쟁을 최소화하고, 조기에 문제를 해결할 수 있습니다.
+              </p>
+              <p className="mt-4 text-xs text-slate-400 bg-slate-50 py-2 rounded-lg">
+                과세예고통지서 등을 받은 날로부터 <span className="font-semibold text-[#D4A857]">30일 이내</span> 신청
+              </p>
+            </div>
+
+            {/* 2) 이의신청 · 심판청구 카드 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+              <div className="inline-flex p-4 bg-slate-50 rounded-full text-[#D4A857] mb-6 group-hover:bg-[#D4A857] group-hover:text-white transition-colors">
+                <Gavel size={32} />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-3 text-lg">이의신청 · 심판청구</h3>
+              <p className="text-slate-600 text-sm leading-relaxed min-h-[40px]">
+                이의신청과 조세심판원 심판청구 등을 통해 부당한 과세 처분의 취소 또는 감액을 적극적으로 다툽니다.
+              </p>
+              <p className="mt-4 text-xs text-slate-400 bg-slate-50 py-2 rounded-lg">
+                고지서 등 처분을 안 날로부터 <span className="font-semibold text-[#D4A857]">90일 이내</span> 청구
+              </p>
+            </div>
+
+            {/* 3) 경정청구 카드 */}
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+              <div className="inline-flex p-4 bg-slate-50 rounded-full text-[#D4A857] mb-6 group-hover:bg-[#D4A857] group-hover:text-white transition-colors">
+                <Search size={32} />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-3 text-lg">경정청구</h3>
+              <p className="text-slate-600 text-sm leading-relaxed min-h-[40px]">
+                이미 납부한 세금 중 과다 납부된 부분에 대해 환급을 청구합니다. 숨은 환급금을 찾아드립니다.
+              </p>
+              <p className="mt-4 text-xs text-slate-400 bg-slate-50 py-2 rounded-lg">
+                법정신고기한 경과 후 원칙적으로 <span className="font-semibold text-[#D4A857]">5년 이내</span> 청구 가능
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* [NEW] 2. 불복 가능성 자가진단 (체크리스트) */}
+      {/* 2. 불복 가능성 자가진단 (체크리스트) */}
       <section className="py-16 md:py-24 bg-white border-y border-slate-100">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex items-center gap-3 mb-4">
@@ -232,7 +259,7 @@ export default function BulbokPage() {
         </div>
       </section>
 
-      {/* [NEW] 5. 승소 사례 요약 (신뢰도 강화) */}
+      {/* 5. 승소 사례 요약 */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-6 max-w-5xl">
           <p className="text-center text-[#D4A857] font-bold tracking-widest text-[11px] uppercase mb-3">Success Cases</p>
