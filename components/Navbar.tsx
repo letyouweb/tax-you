@@ -25,10 +25,12 @@ const Navbar = () => {
 
       const snapContainer = document.querySelector('.snap-container');
       
+      // 데스크탑이고 메인페이지며 스냅 컨테이너가 있을 때
       if (snapContainer && isMainPage && currentWidth >= 1024) {
         const index = Math.round(snapContainer.scrollTop / window.innerHeight);
         setCurrentSectionIndex(index);
       } else {
+        // 모바일이거나 일반 스크롤일 때
         setCurrentSectionIndex(window.scrollY < 50 ? 0 : 1);
       }
     };
@@ -57,19 +59,22 @@ const Navbar = () => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
+  // [수정됨] 로고 클릭 핸들러: 모바일/데스크탑 분기 처리
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
       e.preventDefault();
+      setIsMobileMenuOpen(false); // 모바일 메뉴 닫기
+
+      const isMobile = window.innerWidth < 1024;
       const snapContainer = document.querySelector('.snap-container');
-      if (snapContainer) {
+
+      // 1. 데스크탑이면서 스냅 컨테이너가 있는 경우 -> 컨테이너 스크롤
+      if (snapContainer && !isMobile) {
         snapContainer.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const heroSection = document.getElementById('hero');
-        if (heroSection) {
-          heroSection.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+      } 
+      // 2. 모바일이거나 일반 페이지인 경우 -> 윈도우 스크롤
+      else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
   };
@@ -83,15 +88,13 @@ const Navbar = () => {
   const textColor = shouldUseWhiteText ? '#FFFFFF' : '#050B16';
   const menuTextColor = shouldUseWhiteText ? '#e2e8f0' : '#334155';
   
-  // [수정됨] 모바일 메뉴가 열려있으면(isMobileMenuOpen) 무조건 완전 불투명 흰색(bg-white) 적용
-  // 닫혀있을 때만 스크롤 상태에 따라 투명/반투명 처리
   let navBackgroundClass = '';
   if (isMobileMenuOpen) {
-    navBackgroundClass = 'bg-white py-4 border-b border-slate-100'; // 메뉴 열림: 불투명
+    navBackgroundClass = 'bg-white py-4 border-b border-slate-100'; 
   } else if (isDarkSection) {
-    navBackgroundClass = 'bg-transparent py-6 border-transparent';  // 다크 섹션: 투명
+    navBackgroundClass = 'bg-transparent py-6 border-transparent'; 
   } else {
-    navBackgroundClass = 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header'; // 일반: 반투명
+    navBackgroundClass = 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100 py-4 scrolled-header'; 
   }
 
   const hamburgerColor = isMobileMenuOpen ? '#050B16' : textColor;
@@ -114,6 +117,7 @@ const Navbar = () => {
     <nav className={`fixed w-full z-50 transition-all duration-500 ${navBackgroundClass}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         
+        {/* Logo Text */}
         <Link 
           href="/" 
           onClick={handleLogoClick}
@@ -210,7 +214,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24 space-y-8">
-           <Link href="/" onClick={(e) => { handleLogoClick(e); setIsMobileMenuOpen(false); }} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
+           <Link href="/" onClick={(e) => { handleLogoClick(e); }} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">대표 세무사</Link>
            <Link href="/insight" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">인사이트</Link>
            
