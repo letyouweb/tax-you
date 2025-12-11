@@ -211,7 +211,7 @@ export default function SangsokPage() {
             <div className="relative order-2 md:order-1">
               <div className="aspect-[4/5] md:aspect-[3/4] rounded-lg overflow-hidden shadow-2xl border border-white/10">
                 <Image 
-                  src="/images/yoodongsu-sangsok.jpg" 
+                  src="/images/yoodongsu-sangsok.webp" 
                   alt="상속세 전문 유동수 세무사"
                   width={800}
                   height={1000}
