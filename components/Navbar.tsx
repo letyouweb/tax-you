@@ -106,11 +106,12 @@ const Navbar = () => {
     { name: '조세불복', path: '/services/bulbok' },
   ];
 
+  // [수정됨] 데스크탑 메뉴 순서 변경
   const navItems = [
     { name: '대표 세무사', path: '/about' },
-    { name: '세무 뉴스', path: '/news' }, // [추가됨] PC 메뉴에 추가
-    { name: '인사이트', path: '/insight' },
     { name: '전문분야', path: '/services', hasSubmenu: true },
+    { name: '인사이트', path: '/insight' },
+    { name: '세무 뉴스', path: '/news' },
     { name: '오시는길', path: '/location' },
   ];
 
@@ -216,13 +217,11 @@ const Navbar = () => {
 
         <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24 space-y-8">
            <Link href="/" onClick={(e) => { handleLogoClick(e); }} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
+           
+           {/* [수정됨] 모바일 메뉴 순서 변경 */}
            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">대표 세무사</Link>
            
-           {/* [추가됨] 모바일 메뉴에 세무 뉴스 추가 */}
-           <Link href="/news" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">세무 뉴스</Link>
-           
-           <Link href="/insight" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">인사이트</Link>
-           
+           {/* 전문분야 (드롭다운) */}
            <div className="flex flex-col items-center">
             <button onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium flex items-center gap-3">
               전문분야 <ChevronDown size={22} className={isMobileServicesOpen ? 'rotate-180' : ''} />
@@ -236,7 +235,12 @@ const Navbar = () => {
             </div>
            </div>
 
+           <Link href="/insight" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">인사이트</Link>
+           
+           <Link href="/news" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">세무 뉴스</Link>
+           
            <Link href="/location" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">오시는길</Link>
+           
            <div className="pt-6">
              <Link href="/consult" onClick={() => setIsMobileMenuOpen(false)} className="inline-block text-xl text-white font-bold bg-[#050B16] px-10 py-4 rounded-full">상담문의</Link>
            </div>
