@@ -1,12 +1,9 @@
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
-// Footer 중복 방지를 위해 제거됨
-// import GlobalFooter from '@/components/GlobalFooter'; 
-import { Calendar, ExternalLink, ArrowLeft, Megaphone } from 'lucide-react';
-import Link from 'next/link';
+// Footer는 Layout.tsx에서 처리되므로 여기선 import 안 함
+import { Calendar, ExternalLink, Megaphone } from 'lucide-react'; // ArrowLeft 제거됨
 
-// [핵심] 60초마다 데이터를 갱신 (ISR 방식)
-// 이 설정 덕분에 페이지가 정적 파일처럼 순식간에 뜹니다.
+// [핵심] 60초마다 데이터를 갱신 (ISR 방식) - 빠른 로딩
 export const revalidate = 60;
 
 interface NewsItem {
@@ -19,7 +16,6 @@ interface NewsItem {
 
 export default async function NewsPage() {
   // [서버 사이드] 데이터 미리 가져오기
-  // 로딩 상태(useState)가 필요 없습니다. 데이터가 준비되면 화면이 열립니다.
   const { data: news, error } = await supabase
     .from('tax_news')
     .select('*')
@@ -38,18 +34,17 @@ export default async function NewsPage() {
       
       {/* 헤더 영역 */}
       <div className="pt-20">
-        <div className="bg-[#050B16] text-white py-16 px-6 text-center relative overflow-hidden">
+        <div className="bg-[#050B16] text-white py-20 px-6 text-center relative overflow-hidden">
            {/* 배경 패턴 */}
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
            
            <div className="relative z-10 max-w-4xl mx-auto">
-             <Link href="/" className="inline-flex items-center text-slate-400 hover:text-[#D4A857] mb-6 text-sm transition-colors">
-               <ArrowLeft size={14} className="mr-1" /> 메인으로 돌아가기
-             </Link>
-             <h1 className="text-3xl md:text-4xl font-serif font-bold mb-4">
+             {/* [삭제됨] 메인으로 돌아가기 링크 제거하여 디자인 단순화 */}
+             
+             <h1 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">
                국세청 뉴스 아카이브
              </h1>
-             <p className="text-slate-400 text-sm md:text-base">
+             <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
                매일 아침 업데이트되는 국세청의 최신 정책과 보도자료를<br className="hidden md:block"/>
                유동수 세무회계에서 가장 빠르고 정확하게 전달해 드립니다.
              </p>
@@ -116,8 +111,6 @@ export default async function NewsPage() {
           </div>
         </div>
       </main>
-
-      {/* Footer는 Layout에서 처리되므로 여기선 생략 */}
     </div>
   );
 }
