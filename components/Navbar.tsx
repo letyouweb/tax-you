@@ -59,7 +59,7 @@ const Navbar = () => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
-  // [수정됨] 로고 클릭 핸들러: 모바일/데스크탑 분기 처리
+  // 로고 클릭 핸들러: 모바일/데스크탑 분기 처리
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
       e.preventDefault();
@@ -108,6 +108,7 @@ const Navbar = () => {
 
   const navItems = [
     { name: '대표 세무사', path: '/about' },
+    { name: '세무 뉴스', path: '/news' }, // [추가됨] PC 메뉴에 추가
     { name: '인사이트', path: '/insight' },
     { name: '전문분야', path: '/services', hasSubmenu: true },
     { name: '오시는길', path: '/location' },
@@ -216,6 +217,10 @@ const Navbar = () => {
         <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24 space-y-8">
            <Link href="/" onClick={(e) => { handleLogoClick(e); }} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">Home</Link>
            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">대표 세무사</Link>
+           
+           {/* [추가됨] 모바일 메뉴에 세무 뉴스 추가 */}
+           <Link href="/news" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">세무 뉴스</Link>
+           
            <Link href="/insight" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl text-[#050B16] hover:text-[#D4A857] font-medium">인사이트</Link>
            
            <div className="flex flex-col items-center">

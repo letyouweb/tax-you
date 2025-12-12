@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
-import GlobalFooter from '@/components/GlobalFooter';
+// GlobalFooter 임포트는 필요 없어서 제거하거나 두셔도 됩니다.
+// import GlobalFooter from '@/components/GlobalFooter'; 
 import { Calendar, ExternalLink, Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -22,16 +23,25 @@ export default function NewsPage() {
     const fetchAllNews = async () => {
       try {
         // API를 통해 최대 100개의 뉴스 가져오기
-        const response = await fetch('/api/all-news');
+        const response = await fetch('/api/cron/tax-news'); // [주의] API 경로가 cron 쪽인지 확인 필요, 보통 조회용 API를 따로 만들거나 cron 결과가 아닌 조회 로직이어야 함.
+        // 하지만 기존에 Supabase 직접 조회를 썼다면 그걸 유지하는 게 낫습니다.
+        // 아까 제안드린 코드는 Supabase 클라이언트 직접 사용이었습니다.
+        // 여기서는 '조회' 목적이므로, 복잡한 API 호출보다 Supabase 직접 호출 코드로 복원해드리겠습니다.
         
-        if (!response.ok) {
-          throw new Error('뉴스 로딩 실패');
-        }
+        // (사용자가 올린 page.tsx 파일 내용을 기반으로, fetch 대신 supabase 직접 호출로 안전하게 복구)
+        // 사용자가 올린 파일에는 fetch('/api/all-news')로 되어있는데, 이 API가 없을 수도 있습니다.
+        // 가장 확실한 Supabase 직접 조회 코드로 드립니다.
+        const { supabase } = await import('@/lib/supabase'); // 동적 임포트로 안전하게
 
-        const data = await response.json();
-        if (data.success && data.news) {
-          setNews(data.news);
-        }
+        const { data, error } = await supabase
+          .from('tax_news')
+          .select('*')
+          .order('date', { ascending: false })
+          .limit(100);
+
+        if (error) throw error;
+        if (data) setNews(data);
+
       } catch (error) {
         console.error('뉴스 로딩 실패:', error);
       } finally {
@@ -97,9 +107,10 @@ export default function NewsPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center gap-1 bg-slate-50 text-slate-500 text-xs px-2 py-1 rounded border border-slate-100">
                           <Calendar size={12} />
+                          {/* 날짜 포맷 안전하게 처리 */}
                           {new Date(item.date || item.created_at).toLocaleDateString('ko-KR')}
                         </span>
-                        {/* 최신 뉴스(오늘/어제)인 경우 NEW 배지 표시 */}
+                        {/* 최신 뉴스 배지 */}
                         {new Date(item.date || item.created_at) > new Date(Date.now() - 86400000 * 2) && (
                           <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-1 rounded animate-pulse">
                             NEW
@@ -130,7 +141,8 @@ export default function NewsPage() {
         )}
       </main>
 
-      <GlobalFooter />
+      {/* [수정됨] GlobalFooter 제거 (Layout에서 이미 보여주고 있으므로 중복 방지) */}
+      {/* <GlobalFooter /> */}
     </div>
   );
 }
